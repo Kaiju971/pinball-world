@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { AppRoutes } from "./app/AppRoutes";
+import {
+  GlobalStyles,
+  // ThemeProvider,
+  // createTheme,
+  css,
+  // responsiveFontSizes,
+} from "@mui/material";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => {
+  return <><AppRoutes /><GlobalStyles
+    styles={css`
+          html {
+            scroll-behavior: smooth;
+          }
+          #root,
+          body {
+            margin: 0;
+            overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none; /* IE 10+ */
+            scrollbar-width: none; /* Firefox */
+            &::-webkit-scrollbar {
+              /* chrome based */
+              width: 0px;
+            }
+          }
+        `} /></>;
+};
 
 export default App;
