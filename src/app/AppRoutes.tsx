@@ -46,7 +46,6 @@
 // //   );
 // // };
 
-
 // // src/app/AppRoutes.tsx
 // import React, { lazy, Suspense, useState } from "react";
 // import { Routes as Router, Route, Navigate } from "react-router-dom";
@@ -96,9 +95,13 @@
 //   );
 // };
 
-
 import React, { lazy, Suspense, useState, useEffect } from "react";
-import { Routes as Router, Route, Navigate } from "react-router-dom";
+import {
+  Routes as Router,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { Routes } from "./routes";
 
 const Intro = lazy(() => import("../intro"));
@@ -108,6 +111,7 @@ const HiScore = lazy(() => import("../hiScore"));
 
 export const AppRoutes: React.FC = () => {
   const [introSeen, setIntroSeen] = useState(false);
+  const location = useLocation(); // ⭐ besoin pour key
 
   useEffect(() => {
     const s = localStorage.getItem("introSeen");
@@ -141,8 +145,11 @@ export const AppRoutes: React.FC = () => {
 
         <Route path={Routes.accueil} element={<Accueil />} />
 
-        {/* 🔥 ROUTE DYNAMIQUE POUR TOUS LES PINBALL */}
-        <Route path="/pinball/:name" element={<PinballPage />} />
+        {/* ⭐ KEY FORCE LE REMOUNT LORS DU CHANGEMENT DE TABLE */}
+        <Route
+          path="/pinball/:name"
+          element={<PinballPage key={location.pathname} />}
+        />
         <Route path="/hiscore" element={<HiScore />} />
 
         <Route path="*" element={<div>Introuvable</div>} />

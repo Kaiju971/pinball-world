@@ -1,5 +1,4 @@
 import { styled } from "@mui/material/styles";
-import { Color } from "three";
 
 export const MainContainer = styled("div")({
   width: "100vw",

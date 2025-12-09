@@ -4,6 +4,10 @@ import BeatBoxImg from "../assets/images/BeatBox.png";
 import NightmareImg from "../assets/images/Nightmare.png";
 import SteelWheelImg from "../assets/images/SteelWheel.png";
 
+import BeatBoxMusic from "../assets/audio/GameBeatBox.mp3";
+import IgnitionMusic from "../assets/audio/GameIgnition.mp3";
+import NightmareMusic from "../assets/audio/GameNightmare.mp3";
+import SteelWheelMusic from "../assets/audio/GameSteelWheel.mp3";
 
 export type PinballKey = "Ignition" | "BeatBox" | "Nightmare" | "SteelWheel";
 
@@ -27,7 +31,7 @@ export const pinballData: Record<string, PinballConfig> = {
     title: "Ignition",
     img: IgnitionImg,
     themeColor: "#b30000",
-    music: require("../assets/audio/GameIgnition.mp3").default,
+    music: IgnitionMusic,
     fx: {
       bumper: require("../assets/audio/bumper.wav").default,
       flipper: require("../assets/audio/flipper.wav").default,
@@ -40,7 +44,7 @@ export const pinballData: Record<string, PinballConfig> = {
     title: "BeatBox",
     img: BeatBoxImg,
     themeColor: "#ff8c00",
-    music: require("../assets/audio/GameBeatBox.mp3").default,
+    music: BeatBoxMusic,
     fx: {
       bumper: require("../assets/audio/bumper.wav").default,
       flipper: require("../assets/audio/flipper.wav").default,
@@ -53,7 +57,7 @@ export const pinballData: Record<string, PinballConfig> = {
     title: "Nightmare",
     img: NightmareImg,
     themeColor: "#244659",
-    music: require("../assets/audio/GameNightmare.mp3").default,
+    music: NightmareMusic,
     fx: {
       bumper: require("../assets/audio/bumper.wav").default,
       flipper: require("../assets/audio/flipper.wav").default,
@@ -66,7 +70,7 @@ export const pinballData: Record<string, PinballConfig> = {
     title: "Steel Wheel",
     img: SteelWheelImg,
     themeColor: "#7a4b2a",
-    music: require("../assets/audio/GameSteelWheel.mp3").default,
+    music: SteelWheelMusic,
     fx: {
       bumper: require("../assets/audio/bumper.wav").default,
       flipper: require("../assets/audio/flipper.wav").default,

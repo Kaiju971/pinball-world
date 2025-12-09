@@ -5297,6 +5297,11 @@ graphemer@^1.4.0:
   resolved "https://registry.npmjs.org/graphemer/-/graphemer-1.4.0.tgz"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
 
+gsap@^3.14.1:
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/gsap/-/gsap-3.14.1.tgz#b1f1223cbe55668c7b899031e56cceb9a9243b7d"
+  integrity sha512-nOFRJpVu+U0IPgKzfC5MEdZrJ1iVidGaOuxK0+Un+7vMOHa5rw/SKOaMaRRyHZiJKaeAEALTBwnj6R3gifyGBw==
+
 gzip-size@^6.0.0:
   version "6.0.0"
   resolved "https://registry.npmjs.org/gzip-size/-/gzip-size-6.0.0.tgz"
@@ -5381,7 +5386,7 @@ hoopy@^0.1.4:
 
 howler@^2.2.4:
   version "2.2.4"
-  resolved "https://registry.npmjs.org/howler/-/howler-2.2.4.tgz"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.2.4.tgz#bd3df4a4f68a0118a51e4bd84a2bfc2e93e6e5a1"
   integrity sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w==
 
 hpack.js@^2.1.6:
@@ -7378,6 +7383,11 @@ pkg-up@^3.1.0:
   integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
   dependencies:
     find-up "^3.0.0"
+
+planck-js@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/planck-js/-/planck-js-1.3.0.tgz#2c8ec1cc0279757ff937d3138b673736a7318764"
+  integrity sha512-5ofYj1PW4x2Q/0vaNotZm1nNtjUaBbHRez+ABUhVb+9IyQ7ylzBJsU9og/fx/fHJ2Tfzdw5kTiqwAIxEeQzSXw==
 
 possible-typed-array-names@^1.0.0:
   version "1.1.0"

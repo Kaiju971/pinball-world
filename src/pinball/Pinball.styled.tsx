@@ -14,13 +14,11 @@ export const CanvasWrapper = styled("div")({
   height: "100%",
 });
 
-export const HUD = styled("div")({
-  position: "absolute",
-  zIndex: 20,
-  top: 10,
-  left: 10,
-  color: "#fff",
-  fontFamily: "monospace",
+export const Spinner = styled("div")({
+  width: "100vw",
+  height: "50vh",
+  backgroundColor: "black",
+  color: "yellow",
 });
 
 export const Controls = styled("div")({
@@ -44,8 +42,6 @@ export const SpeakerButton = styled("button")({
   color: "#fff",
   cursor: "pointer",
 });
-
-
 
 // import { styled } from "@mui/material/styles";
 
