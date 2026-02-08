@@ -1,101 +1,5 @@
-// // import React, { lazy, Suspense, useState, useEffect } from "react";
-// // import { Routes as Router, Route, Navigate } from "react-router-dom"; // ← IMPORTANT
-// // import { Routes } from "./routes";
-
-// // const Intro = lazy(() => import("../intro"));
-// // const Accueil = lazy(() => import("../accueil"));
-// // const Pinball = lazy(() => import("../pinball/GameContainer"));
-
-// // export const AppRoutes: React.FC = () => {
-// //   const [introSeen, setIntroSeen] = useState(false);
-
-// //   useEffect(() => {
-// //     const status = localStorage.getItem("introSeen");
-// //     if (status === "true") setIntroSeen(true);
-// //   }, []);
-
-// //   const handleIntroComplete = () => {
-// //     setIntroSeen(true);
-// //     localStorage.setItem("introSeen", "true");
-// //   };
-
-// //   return (
-// //     <Suspense fallback={<div>Chargement...</div>}>
-// //       <Router>
-// //         <Route
-// //           path="/"
-// //           element={
-// //             introSeen ? (
-// //               <Navigate to={Routes.accueil} replace />
-// //             ) : (
-// //               <Navigate to={Routes.intro} replace />
-// //             )
-// //           }
-// //         />
-
-// //         <Route
-// //           path={Routes.intro}
-// //           element={<Intro onComplete={handleIntroComplete} />}
-// //         />
-
-// //         <Route path={Routes.accueil} element={<Accueil />} />
-
-// //         <Route path={Routes.pinball} element={<Pinball />} />
-// //       </Router>
-// //     </Suspense>
-// //   );
-// // };
-
-// // src/app/AppRoutes.tsx
-// import React, { lazy, Suspense, useState } from "react";
-// import { Routes as Router, Route, Navigate } from "react-router-dom";
-// import { Routes } from "./routes";
-
-// const Intro = lazy(() => import("../intro/Intro"));
-// const Accueil = lazy(() => import("../accueil"));
-// const Pinball = lazy(() => import("../pinball/GameContainer"));
-
-// export const AppRoutes: React.FC = () => {
-//   // Toujours false pour forcer l'intro
-//   const [introSeen, setIntroSeen] = useState(false);
-
-//   const handleIntroComplete = () => {
-//     setIntroSeen(true);
-//     localStorage.setItem("introSeen", "true"); // optionnel
-//   };
-
-//   return (
-//     <Suspense fallback={<div>Chargement...</div>}>
-//       <Router>
-//         {/* Page racine : si introSeen false → Intro, sinon accueil */}
-//         <Route
-//           path="/"
-//           element={
-//             introSeen ? (
-//               <Navigate to={Routes.accueil} replace />
-//             ) : (
-//               <Navigate to={Routes.intro} replace />
-//             )
-//           }
-//         />
-
-//         {/* Intro */}
-//         <Route
-//           path={Routes.intro}
-//           element={<Intro onComplete={handleIntroComplete} />}
-//         />
-
-//         {/* Page accueil */}
-//         <Route path={Routes.accueil} element={<Accueil />} />
-
-//         {/* Pinball */}
-//         <Route path={Routes.pinball} element={<Pinball />} />
-//       </Router>
-//     </Suspense>
-//   );
-// };
-
-import React, { lazy, Suspense, useState, useEffect } from "react";
+// src/app/AppRoutes.tsx
+import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 import {
   Routes as Router,
   Route,
@@ -104,56 +8,103 @@ import {
 } from "react-router-dom";
 import { Routes } from "./routes";
 
+import MenuMusic from "../assets/audio/intro.mp3";
+
 const Intro = lazy(() => import("../intro"));
 const Accueil = lazy(() => import("../accueil"));
 const PinballPage = lazy(() => import("../pinball/PinballGame"));
 const HiScore = lazy(() => import("../hiScore"));
 
 export const AppRoutes: React.FC = () => {
-  const [introSeen, setIntroSeen] = useState(false);
-  const location = useLocation(); // ⭐ besoin pour key
+  const location = useLocation();
+  const audioRef = useRef<HTMLAudioElement>(null);
 
+  const [introSeen, setIntroSeen] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const [currentMusic, setCurrentMusic] = useState<string | null>(MenuMusic);
+
+  /** -------------------------
+   * INTRO STATE
+   * ------------------------- */
   useEffect(() => {
     const s = localStorage.getItem("introSeen");
     if (s === "true") setIntroSeen(true);
   }, []);
 
-  const handleIntroComplete = () => {
-    setIntroSeen(true);
-    localStorage.setItem("introSeen", "true");
-  };
+  /** -------------------------
+   * AUDIO PLAYER
+   * ------------------------- */
+  useEffect(() => {
+    if (!audioRef.current || !currentMusic) return;
+
+    // audioRef.current.pause();
+    audioRef.current.src = currentMusic;
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.6;
+    audioRef.current.muted = muted;
+
+    audioRef.current.play().catch(() => {});
+  }, [currentMusic]); // dépend uniquement de la musique
+
+  /** -------------------------
+   * HANDLE MUTE
+   * ------------------------- */
+  useEffect(() => {
+    if (!audioRef.current) return;
+    audioRef.current.muted = muted; // ne change pas la src ni ne relance play()
+  }, [muted]);
+
+  /** -------------------------
+   * MUSIC ROUTING
+   * ------------------------- */
+  useEffect(() => {
+    // MENU
+    if (location.pathname === Routes.accueil) {
+      setCurrentMusic(MenuMusic);
+    }
+
+    // PINBALL → stop menu music
+    if (location.pathname.startsWith("/pinball")) {
+      setCurrentMusic(null);
+    }
+  }, [location.pathname]);
 
   return (
-    <Suspense fallback={<div>Chargement...</div>}>
-      <Router>
-        {/* REDIRECTION LOGIQUE */}
-        <Route
-          path="/"
-          element={
-            introSeen ? (
-              <Navigate to={Routes.accueil} replace />
-            ) : (
-              <Navigate to={Routes.intro} replace />
-            )
-          }
-        />
+    <>
+      <audio ref={audioRef} />
 
-        <Route
-          path={Routes.intro}
-          element={<Intro onComplete={handleIntroComplete} />}
-        />
+      <Suspense fallback={<div>Chargement...</div>}>
+        <Router>
+          <Route
+            path="/"
+            element={
+              introSeen ? (
+                <Navigate to={Routes.accueil} replace />
+              ) : (
+                <Navigate to={Routes.intro} replace />
+              )
+            }
+          />
 
-        <Route path={Routes.accueil} element={<Accueil />} />
+          <Route
+            path={Routes.intro}
+            element={<Intro muted={muted} setMuted={setMuted} />}
+          />
 
-        {/* ⭐ KEY FORCE LE REMOUNT LORS DU CHANGEMENT DE TABLE */}
-        <Route
-          path="/pinball/:name"
-          element={<PinballPage key={location.pathname} />}
-        />
-        <Route path="/hiscore" element={<HiScore />} />
+          <Route
+            path={Routes.accueil}
+            element={<Accueil muted={muted} setMuted={setMuted} />}
+          />
 
-        <Route path="*" element={<div>Introuvable</div>} />
-      </Router>
-    </Suspense>
+          <Route path="/pinball/:name" element={<PinballPage />} />
+
+          <Route
+            path={Routes.hiScore}
+            element={<HiScore muted={muted} setMuted={setMuted} />}
+          />
+          <Route path="*" element={<div>Introuvable</div>} />
+        </Router>
+      </Suspense>
+    </>
   );
 };

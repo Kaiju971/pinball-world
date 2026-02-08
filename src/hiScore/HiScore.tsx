@@ -1,6 +1,8 @@
 // src/pages/HiScore.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import * as S from "./HiScore.styled";
 import HiScoreResetModal from "./HiScoreResetModal";
 import {
@@ -38,8 +40,16 @@ const DEFAULT_SCORES: ScoreBoard = {
   ],
 };
 
-export default function HiScorePage() {
+/** 🔊 PROPS REÇUES DE AppRoutes */
+export interface HiscoreProps {
+  muted: boolean;
+  setMuted: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Hiscore: React.FC<HiscoreProps> = ({ muted, setMuted }) => {
   const navigate = useNavigate();
+
+
   const [board, setBoard] = useState<ScoreBoard>(() =>
     getScores(DEFAULT_SCORES)
   );
@@ -71,6 +81,10 @@ export default function HiScorePage() {
   return (
     <S.MainContainer>
       <S.Title>HIGH-SCORES</S.Title>
+      {/* 🔊 BOUTON SON GLOBAL */}
+      <S.SoundButton onClick={() => setMuted((m) => !m)}>
+        {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+      </S.SoundButton>
 
       <S.Controls>
         <div />
@@ -182,3 +196,4 @@ export default function HiScorePage() {
     </S.MainContainer>
   );
 }
+export default Hiscore;

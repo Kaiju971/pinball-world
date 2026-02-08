@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as THREE from "three";
 import { pinballData, PinballKey } from "./pinballData";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+
 import * as S from "./Pinball.styled";
 
 const PinballGame: React.FC = () => {
@@ -72,6 +75,7 @@ const PinballGame: React.FC = () => {
     });
 
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       audioRef.current?.pause();
     };
   }, [tableKey, muted, tableConfig.music]);
@@ -80,16 +84,26 @@ const PinballGame: React.FC = () => {
     <S.Page>
       <S.CanvasWrapper>
         {loading && <S.Spinner>Loading...</S.Spinner>}
-        <div ref={mountRef} style={{ width: "100%", height: "100%" }} />
+        <div ref={mountRef} style={{ width: "100%", height: "200%" }} />
       </S.CanvasWrapper>
 
       <audio key={tableKey} ref={audioRef} loop />
 
-      <S.Controls>
+      {/* <S.Controls>
         <S.SpeakerButton onClick={() => setMuted((m) => !m)}>
           {muted ? "🔇" : "🔊"}
         </S.SpeakerButton>
-      </S.Controls>
+      </S.Controls> */}
+
+      <S.SoundButton
+        onClick={() => {
+          if (!audioRef.current) return;
+          audioRef.current.muted = !audioRef.current.muted;
+          setMuted(audioRef.current.muted);
+        }}
+      >
+        {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+      </S.SoundButton>
     </S.Page>
   );
 };

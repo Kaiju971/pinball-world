@@ -1,72 +1,49 @@
-// src/intro/Intro.tsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { IntroContainer, Video, AudioToggleButton } from "./Intro.styled";
 import introVideo from "../assets/videos/Intro.mp4";
-import introAudio from "../assets/audio/intro.mp3";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
-interface IntroProps {
-  onComplete: () => void;
+/**
+ * ❗ IMPORTANT
+ * La musique NE VIENT PAS d'ici
+ * Elle est gérée globalement dans AppRoutes
+ */
+export interface IntroProps {
+  muted: boolean;
+  setMuted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Intro: React.FC<IntroProps> = ({ onComplete }) => {
+const Intro: React.FC<IntroProps> = ({ muted, setMuted }) => {
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
-
-  const [muted, setMuted] = useState(true);
 
   useEffect(() => {
     const video = videoRef.current;
-    const audio = audioRef.current;
+    if (!video) return;
 
-    if (video && audio) {
-      // Lire les deux simultanément
-      video.play().catch(() => {});
-      audio.play().catch(() => {});
+    video.play().catch(() => {});
 
-      // Synchroniser audio avec la vidéo
-      video.addEventListener("timeupdate", () => {
-        if (Math.abs(video.currentTime - audio.currentTime) > 0.1) {
-          audio.currentTime = video.currentTime;
-        }
-      });
+    video.addEventListener("ended", () => {
+      navigate("/accueil");
+    });
 
-      // Quand la vidéo se termine
-      video.addEventListener("ended", () => {
-        onComplete();
-        navigate("/accueil");
-      });
-    }
-  }, [navigate, onComplete]);
-
-  const toggleMute = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (muted) {
-      audio.muted = false;
-      setMuted(false);
-    } else {
-      audio.muted = true;
-      setMuted(true);
-    }
-  };
+    return () => {
+      video.pause();
+    };
+  }, [navigate]);
 
   return (
     <IntroContainer>
-      <Video ref={videoRef} autoPlay muted={muted} playsInline>
+      {/* 🎥 VIDEO INTRO (SANS AUDIO) */}
+      <Video ref={videoRef} autoPlay muted playsInline>
         <source src={introVideo} type="video/mp4" />
         Votre navigateur ne supporte pas la vidéo.
       </Video>
 
-      {/* Audio séparé */}
-      <audio ref={audioRef} src={introAudio} muted={muted} />
-
-      {/* Bouton pour activer/désactiver le son */}
-      <AudioToggleButton onClick={toggleMute}>
+      {/* 🔊 CONTROLE DU SON GLOBAL (AppRoutes) */}
+      <AudioToggleButton onClick={() => setMuted((m) => !m)}>
         {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
       </AudioToggleButton>
     </IntroContainer>

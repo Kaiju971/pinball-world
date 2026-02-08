@@ -46,6 +46,24 @@ export const Button = styled("button")({
   },
 });
 
+/* 🔊 Bouton Son */
+export const SoundButton = styled("button")({
+  position: "absolute",
+  top: 20,
+  right: 20,
+  background: "rgba(0,0,0,0.5)",
+  color: "#fff",
+  border: "none",
+  borderRadius: "50%",
+  padding: 10,
+  cursor: "pointer",
+  zIndex: 10,
+  "&:hover": {
+    background: "rgba(255, 255, 255, 0.708)",
+    color: "#000000",
+  },
+});
+
 export const ScoreGrid = styled("div")({
   width: "90%",
   flex: 1,

@@ -5,6 +5,7 @@ export const MainContainer = styled("div")({
   maxHeight: "100vh",
   overflow: "hidden",
   position: "relative",
+  
 });
 
 export const GridContainer = styled("div")({
@@ -12,8 +13,9 @@ export const GridContainer = styled("div")({
   gridTemplateColumns: "repeat(1, 1fr)",
   width: "100vw",
   height: "90vh",
-  //   gap:"0.1rem",
+    // gap:"0.1rem",
   position: "relative",
+  
 });
 
 export const GridItem = styled("div")({
@@ -21,7 +23,9 @@ export const GridItem = styled("div")({
   height: "100%",
   cursor: "pointer",
   overflow: "hidden",
+  
   "& img": {
+    
     width: "100%",
     height: "100%",
     // objectFit: "cover",
