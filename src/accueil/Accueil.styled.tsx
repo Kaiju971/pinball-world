@@ -215,3 +215,36 @@ export const ScoreButton = styled("button")({
     },
   },
 });
+
+/* 🟣 OVERLAY DE LOADING PINBALL */
+
+export const LoadingOverlay = styled("div")({
+  position: "fixed",
+  inset: 0,
+  backgroundColor: "#000000",
+  zIndex: 9999,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  pointerEvents: "all",
+});
+
+export const LoadingText = styled("div")({
+  color: "#00eaff",
+  fontSize: "28px",
+  textAlign: "center",
+  fontFamily: "'Press Start 2P', monospace",
+  letterSpacing: "3px",
+  textShadow: `
+    0 0 6px #00eaff,
+    0 0 12px #00eaff,
+    0 0 20px #00eaff
+  `,
+  animation: "blinkLoader 1.2s infinite ease-in-out",
+
+  "@keyframes blinkLoader": {
+    "0%": { opacity: 1 },
+    "50%": { opacity: 0.35 },
+    "100%": { opacity: 1 },
+  },
+});

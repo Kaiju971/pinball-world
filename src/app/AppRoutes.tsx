@@ -57,17 +57,37 @@ export const AppRoutes: React.FC = () => {
   /** -------------------------
    * MUSIC ROUTING
    * ------------------------- */
-  useEffect(() => {
-    // MENU
-    if (location.pathname === Routes.accueil) {
-      setCurrentMusic(MenuMusic);
-    }
+  // useEffect(() => {
+  //   // MENU
+  //   if (location.pathname === Routes.accueil) {
+  //     setCurrentMusic(MenuMusic);
+  //   }
 
-    // PINBALL → stop menu music
-    if (location.pathname.startsWith("/pinball")) {
-      setCurrentMusic(null);
-    }
-  }, [location.pathname]);
+  //   // PINBALL → stop menu music
+  //   if (location.pathname.startsWith("/pinball")) {
+  //     setCurrentMusic(null);
+  //   }
+  // }, [location.pathname]);
+
+  useEffect(() => {
+  if (!audioRef.current) return;
+
+  if (!currentMusic) {
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+    return;
+  }
+
+  audioRef.current.pause();
+  audioRef.current.currentTime = 0;
+  audioRef.current.src = currentMusic;
+  audioRef.current.loop = true;
+  audioRef.current.volume = 0.6;
+  audioRef.current.muted = muted;
+
+  audioRef.current.play().catch(() => {});
+}, [currentMusic, muted]);
+
 
   return (
     <>

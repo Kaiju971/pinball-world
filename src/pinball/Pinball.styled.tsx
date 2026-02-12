@@ -1,6 +1,40 @@
 // src/pinball/Pinball.styled.tsx
 import { styled } from "@mui/material/styles";
 
+
+
+export const MainContainer = styled("div")({
+
+});
+
+export const HUD = styled("div")({
+  background: "linear-gradient(#020024, #030337, #000)",
+  borderBottom: "6px solid #9f9f9f",
+  width: "100vw",
+  height:"20vh",
+  position: "absolute",
+  top: -20,
+  zIndex: 999,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+});
+
+export const Score = styled("div")({
+
+  color: "orange",
+  fontSize: "167px",
+  
+});
+
+export const Bonus = styled("div")({
+
+  color: "orange",
+  fontSize: "22px",
+  // marginTop: "10px",
+});
+
+
 export const Page = styled("div")({
   position: "relative",
   width: "100vw",

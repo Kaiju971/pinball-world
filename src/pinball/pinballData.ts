@@ -1,81 +1,128 @@
-// src/pinball/pinballData.ts
 import AiRobotImg from "../assets/images/AI PINBALL PINBALL.png";
-import MythologyImg from "../assets/images/Mythology.png";
-import EntityImg from "../assets/images/Entity.png";
-import GoldWheelImg from "../assets/images/GoldWheel.png";
+import MythologyImg from "../assets/images/MYTHOLOGY PINBALL.png";
+import EntityImg from "../assets/images/ENTITY PINBALL.png";
+import GoldWheelImg from "../assets/images/GOLDWHEEL PINBALL.png";
 
-import BeatBoxMusic from "../assets/audio/GameBeatBox.mp3";
+import BeatBoxMusic from "../assets/audio/Rise Of The Hero 11-02-2026 12-48_1.wav";
+
+
+
 import IgnitionMusic from "../assets/audio/GameIgnition.mp3";
+
+
+
 import NightmareMusic from "../assets/audio/GameNightmare.mp3";
+import IntroEntity from "../assets/audio/intro pinball ENTITY.mp3";
+
+
+
 import SteelWheelMusic from "../assets/audio/GameSteelWheel.mp3";
 
-export type PinballKey = "AiRobot" | "BeatBox" | "Nightmare" | "SteelWheel";
+import launcherImg from "../assets/images/launcher.png";
+import ball1 from "../assets/images/table_ignition.png";
+import ball2 from "../assets/images/ball2.png";
+import ball3 from "../assets/images/ball3.png";
+
+import bumperFx from "../assets/audio/bumper.wav";
+import flipperFx from "../assets/audio/flipper.wav";
+import holeFx from "../assets/audio/hole.wav";
+
+export type PinballKey = "AiRobot" | "Mythology" | "Entity" | "GoldWheel";
 
 export interface PinballConfig {
-  key: PinballKey | string;
+  key: PinballKey;
   title: string;
   img: string;
+  ballImg?: string;
   themeColor: string;
-  music?: string; // chemin vers musique d'ambiance (optionnel)
+
+  launch?: string;
+
+  // 🎵 musiques
+  musicPreview?: string;
+  musicGame?: string;
+  musicEnd?: string;
+
   fx?: {
+    launch?: string;
     bumper?: string;
     flipper?: string;
-    launch?: string;
     hole?: string;
+    fxReady?: string;
   };
 }
 
-export const pinballData: Record<string, PinballConfig> = {
+
+export const pinballData: Record<PinballKey, PinballConfig> = {
   AiRobot: {
     key: "AiRobot",
     title: "AiRobot",
     img: AiRobotImg,
+    ballImg: ball1,
     themeColor: "#b30000",
-    music: IgnitionMusic,
+    musicPreview: IgnitionMusic,
+    musicGame: IgnitionMusic,
+    musicEnd: IgnitionMusic,
+    launch: launcherImg,
     fx: {
-      bumper: require("../assets/audio/bumper.wav").default,
-      flipper: require("../assets/audio/flipper.wav").default,
-      launch: require("../assets/audio/launch.wav").default,
-      hole: require("../assets/audio/hole.wav").default,
+      bumper: bumperFx,
+      flipper: flipperFx,
+      hole: holeFx,
+      fxReady: holeFx,
     },
   },
+
   Mythology: {
     key: "Mythology",
     title: "Mythology",
     img: MythologyImg,
+    ballImg: ball2,
     themeColor: "#ff8c00",
-    music: BeatBoxMusic,
+    musicPreview: BeatBoxMusic,
+    musicGame: BeatBoxMusic,
+    musicEnd: BeatBoxMusic,
+    launch: launcherImg,
     fx: {
-      bumper: require("../assets/audio/bumper.wav").default,
-      flipper: require("../assets/audio/flipper.wav").default,
-      launch: require("../assets/audio/launch.wav").default,
-      hole: require("../assets/audio/hole.wav").default,
+      bumper: bumperFx,
+      flipper: flipperFx,
+      hole: holeFx,
+      fxReady: holeFx,
     },
   },
+
   Entity: {
     key: "Entity",
     title: "Entity",
     img: EntityImg,
+    ballImg: ball3,
     themeColor: "#244659",
-    music: NightmareMusic,
+    musicPreview: IntroEntity,
+    musicGame: NightmareMusic,
+    musicEnd: NightmareMusic,
+    launch: launcherImg,
     fx: {
-      bumper: require("../assets/audio/bumper.wav").default,
-      flipper: require("../assets/audio/flipper.wav").default,
-      launch: require("../assets/audio/launch.wav").default,
-      hole: require("../assets/audio/hole.wav").default,
+      bumper: bumperFx,
+      flipper: flipperFx,
+      hole: holeFx,
+      fxReady: holeFx,
     },
   },
+
   GoldWheel: {
     key: "GoldWheel",
     title: "GoldWheel",
     img: GoldWheelImg,
+    ballImg: ball2,
     themeColor: "#7a4b2a",
-    music: SteelWheelMusic,
+    musicPreview: SteelWheelMusic,
+    musicGame: SteelWheelMusic,
+    musicEnd: SteelWheelMusic,
+    launch: launcherImg,
     fx: {
-      bumper: require("../assets/audio/bumper.wav").default,
-      flipper: require("../assets/audio/flipper.wav").default,
-      launch: require("../assets/audio/launch.wav").default,
-      hole: require("../assets/audio/hole.wav").default,
+      bumper: bumperFx,
+      flipper: flipperFx,
+      hole: holeFx,
+      fxReady: holeFx,
     },
   },
 };
