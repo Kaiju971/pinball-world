@@ -14,29 +14,29 @@ import {
 } from "../pinball/utils/scores";
 
 const DEFAULT_SCORES: ScoreBoard = {
-  BeatBox: [
-    { initials: "AAA", score: 1000 },
-    { initials: "BOB", score: 800 },
-    { initials: "KRN", score: 600 },
-    { initials: "ZZZ", score: 400 },
+  Mythology: [
+    { initials: "AAA", score: 1000000 },
+    { initials: "BOB", score: 800000 },
+    { initials: "KRN", score: 600000 },
+    { initials: "ZZZ", score: 400000 },
   ],
-  Ignition: [
-    { initials: "LUX", score: 1200 },
-    { initials: "FIR", score: 900 },
-    { initials: "JAY", score: 700 },
-    { initials: "MNT", score: 300 },
+  AiRobot: [
+    { initials: "LUX", score: 1200000 },
+    { initials: "FIR", score: 900000 },
+    { initials: "JAY", score: 700000 },
+    { initials: "MNT", score: 300000 },
   ],
-  Nightmare: [
-    { initials: "DRK", score: 1400 },
-    { initials: "GH0", score: 1100 },
-    { initials: "SAM", score: 650 },
-    { initials: "KYL", score: 250 },
+  Entity: [
+    { initials: "DRK", score: 1400000 },
+    { initials: "GH0", score: 1100000 },
+    { initials: "SAM", score: 650000 },
+    { initials: "KYL", score: 250000 },
   ],
-  SteelWheel: [
-    { initials: "RAC", score: 1300 },
-    { initials: "SPD", score: 1000 },
-    { initials: "BRK", score: 500 },
-    { initials: "JMP", score: 200 },
+  GoldWheel: [
+    { initials: "RAC", score: 1300000 },
+    { initials: "SPD", score: 1000000 },
+    { initials: "BRK", score: 500000 },
+    { initials: "JMP", score: 200000 },
   ],
 };
 
@@ -49,9 +49,8 @@ export interface HiscoreProps {
 const Hiscore: React.FC<HiscoreProps> = ({ muted, setMuted }) => {
   const navigate = useNavigate();
 
-
   const [board, setBoard] = useState<ScoreBoard>(() =>
-    getScores(DEFAULT_SCORES)
+    getScores(DEFAULT_SCORES),
   );
   const [modal, setModal] = useState<{
     open: boolean;
@@ -93,13 +92,13 @@ const Hiscore: React.FC<HiscoreProps> = ({ muted, setMuted }) => {
             position: "fixed",
           }}
         >
-          <S.Button onClick={() => navigate("/")}>BACK</S.Button>
+          <S.Button onClick={() => navigate("/Accueil")}>BACK</S.Button>
         </div>
-        <div>
+        {/* <div>
           <S.Button
             onClick={() => openAdd("BeatBox", Math.floor(Math.random() * 2000))}
           >
-            Add random BeatBox score
+            Add score
           </S.Button>
           <S.Button
             onClick={() => setOpenReset(true)}
@@ -107,7 +106,7 @@ const Hiscore: React.FC<HiscoreProps> = ({ muted, setMuted }) => {
           >
             Reset Scores
           </S.Button>
-        </div>
+        </div> */}
       </S.Controls>
 
       <S.ScoreGrid>
@@ -195,5 +194,5 @@ const Hiscore: React.FC<HiscoreProps> = ({ muted, setMuted }) => {
       <S.Pinball>PINBALL WORLD!</S.Pinball>
     </S.MainContainer>
   );
-}
+};
 export default Hiscore;

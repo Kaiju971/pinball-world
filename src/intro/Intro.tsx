@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { IntroContainer, Video, AudioToggleButton } from "./Intro.styled";
-import introVideo from "../assets/videos/Intro.mp4";
+import introVideo from "../assets/videos/INTRODUCTION SANS SON PINBALL WORLD.mp4";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 

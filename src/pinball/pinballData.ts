@@ -19,7 +19,7 @@ import IntroEntity from "../assets/audio/intro pinball ENTITY.mp3";
 import SteelWheelMusic from "../assets/audio/GameSteelWheel.mp3";
 
 import launcherImg from "../assets/images/launcher.png";
-import ball1 from "../assets/images/table_ignition.png";
+import ball1 from "../assets/images/ball1.png";
 import ball2 from "../assets/images/ball2.png";
 import ball3 from "../assets/images/ball3.png";
 
@@ -58,7 +58,7 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     key: "AiRobot",
     title: "AiRobot",
     img: AiRobotImg,
-    ballImg: ball1,
+    ballImg: ball3,
     themeColor: "#b30000",
     musicPreview: IgnitionMusic,
     musicGame: IgnitionMusic,
@@ -112,7 +112,7 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     key: "GoldWheel",
     title: "GoldWheel",
     img: GoldWheelImg,
-    ballImg: ball2,
+    ballImg: ball1,
     themeColor: "#7a4b2a",
     musicPreview: SteelWheelMusic,
     musicGame: SteelWheelMusic,

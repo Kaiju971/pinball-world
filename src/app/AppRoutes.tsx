@@ -44,7 +44,7 @@ export const AppRoutes: React.FC = () => {
     audioRef.current.muted = muted;
 
     audioRef.current.play().catch(() => {});
-  }, [currentMusic]); // dépend uniquement de la musique
+  }, [currentMusic, muted]); // dépend uniquement de la musique
 
   /** -------------------------
    * HANDLE MUTE

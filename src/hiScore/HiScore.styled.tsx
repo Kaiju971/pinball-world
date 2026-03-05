@@ -28,7 +28,7 @@ export const Controls = styled("div")({
   width: "90%",
   display: "flex",
   justifyContent: "space-between",
-  marginBottom: "16px",
+  marginBottom: "3rem",
 });
 
 export const Button = styled("button")({
