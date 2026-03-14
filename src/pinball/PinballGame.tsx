@@ -37,7 +37,8 @@ const PinballGame: React.FC = () => {
   const previewMaxY = 16.15;
   const previewSpeed = 0.02;
 
-  // ---------------- AUDIO ----------------
+  /** ---------------- AUDIO ---------------- */
+
   useEffect(() => {
     previewMusic.current = new Audio(tableConfig.musicPreview);
     gameMusic.current = new Audio(tableConfig.musicGame);
@@ -58,7 +59,7 @@ const PinballGame: React.FC = () => {
       gameMusic.current?.pause();
       endMusic.current?.pause();
     };
-  }, [muted, tableConfig.musicEnd, tableConfig.musicGame, tableConfig.musicPreview, tableKey]);
+  }, [tableKey]);
 
   useEffect(() => {
     if (previewMusic.current) previewMusic.current.muted = muted;
@@ -66,24 +67,38 @@ const PinballGame: React.FC = () => {
     if (endMusic.current) endMusic.current.muted = muted;
   }, [muted]);
 
-  // ---------------- THREE ----------------
+  /** ---------------- THREE ---------------- */
+
   useEffect(() => {
     if (!mountRef.current) return;
+
     setLoading(true);
 
-    const w = mountRef.current.clientWidth;
-    const h = mountRef.current.clientHeight;
+    const manager = new THREE.LoadingManager();
+
+    manager.onLoad = () => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1600);
+    };
+
+    const loader = new THREE.TextureLoader(manager);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.setSize(w, h);
+    const width = mountRef.current.clientWidth;
+    const height = mountRef.current.clientHeight;
+
+    renderer.setSize(width, height);
     renderer.setPixelRatio(window.devicePixelRatio);
+
     mountRef.current.innerHTML = "";
     mountRef.current.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
 
-    const aspect = w / h;
+    const aspect = width / height;
     const viewSize = 4.7;
+
     const camera = new THREE.OrthographicCamera(
       -viewSize * aspect,
       viewSize * aspect,
@@ -95,28 +110,38 @@ const PinballGame: React.FC = () => {
 
     camera.position.set(0, previewYRef.current, 10);
 
-    const loader = new THREE.TextureLoader();
+    /** TABLE */
 
-    loader.load(tableConfig.img, (tex) => {
-      const table = new THREE.Mesh(
-        new THREE.PlaneGeometry(10, 20),
-        new THREE.MeshBasicMaterial({ map: tex, transparent: true }),
-      );
-      table.position.set(0, 10, 0);
-      scene.add(table);
-      setLoading(false);
-    });
+    const tableTexture = loader.load(tableConfig.img);
+
+    const table = new THREE.Mesh(
+      new THREE.PlaneGeometry(10, 20),
+      new THREE.MeshBasicMaterial({
+        map: tableTexture,
+        transparent: true,
+      }),
+    );
+
+    table.position.set(0, 10, 0);
+    scene.add(table);
+
+    /** BALL */
+
+    const ballTexture = loader.load(tableConfig.ballImg!);
 
     const ball = new THREE.Mesh(
       new THREE.CircleGeometry(0.25, 32),
       new THREE.MeshBasicMaterial({
-        map: loader.load(tableConfig.ballImg!),
+        map: ballTexture,
         transparent: true,
       }),
     );
+
     ball.position.set(4.7, ballYRef.current, 2);
     scene.add(ball);
     ballRef.current = ball;
+
+    /** PHYSICS */
 
     const gravity = -0.002;
     const minY = 0.6;
@@ -137,21 +162,26 @@ const PinballGame: React.FC = () => {
         ballYRef.current += velocityRef.current;
 
         if (ballYRef.current <= minY) {
-          setBallsLeft((b) => b - 1);
-
-          if (ballsLeft <= 1) {
-            gameMusic.current?.pause();
-            endMusic.current?.play().catch(() => {});
-          }
+          setBallsLeft((b) => {
+            if (b <= 1) {
+              gameMusic.current?.pause();
+              endMusic.current?.play().catch(() => {});
+            }
+            return b - 1;
+          });
 
           readyToShootRef.current = true;
           gameStartedRef.current = false;
+
           ballYRef.current = 1.2;
           velocityRef.current = 0;
         }
 
         ballYRef.current = THREE.MathUtils.clamp(ballYRef.current, minY, maxY);
-        if (ballRef.current) ballRef.current.position.y = ballYRef.current;
+
+        if (ballRef.current) {
+          ballRef.current.position.y = ballYRef.current;
+        }
 
         camera.position.y = THREE.MathUtils.lerp(
           camera.position.y,
@@ -165,10 +195,14 @@ const PinballGame: React.FC = () => {
     };
 
     animate();
-    return () => renderer.dispose();
-  }, [tableKey, ballsLeft, tableConfig.img, tableConfig.ballImg]);
 
-  // ---------------- CONTROLS ----------------
+    return () => {
+      renderer.dispose();
+    };
+  }, [tableKey]);
+
+  /** ---------------- CONTROLS ---------------- */
+
   useEffect(() => {
     const onKeyUp = (e: KeyboardEvent) => {
       if (e.code === "ArrowDown" && readyToShootRef.current) {
@@ -187,6 +221,8 @@ const PinballGame: React.FC = () => {
     return () => window.removeEventListener("keyup", onKeyUp);
   }, []);
 
+  /** ---------------- JSX ---------------- */
+
   return (
     <S.MainContainer>
       <S.HUD>
@@ -198,12 +234,11 @@ const PinballGame: React.FC = () => {
           {loading && (
             <S.Spinner>
               LOADING
-              <br />
-              __________
-              <br />
+              <S.Line />
               {tableKey.toUpperCase()}
             </S.Spinner>
           )}
+
           <div ref={mountRef} style={{ width: "100%", height: "200%" }} />
         </S.CanvasWrapper>
 
