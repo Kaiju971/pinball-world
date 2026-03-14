@@ -6,7 +6,12 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import * as S from "./Pinball.styled";
 
-const PinballGame: React.FC = () => {
+type Props = {
+  muted: boolean;
+  setMuted: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
   const { name } = useParams<{ name: PinballKey }>();
   const tableKey = (name || "AiRobot") as PinballKey;
   const tableConfig = pinballData[tableKey];
@@ -20,7 +25,6 @@ const PinballGame: React.FC = () => {
   const ballRef = useRef<THREE.Mesh | null>(null);
 
   const [loading, setLoading] = useState(true);
-  const [muted, setMuted] = useState(true);
   const [ballsLeft, setBallsLeft] = useState(3);
 
   const readyToShootRef = useRef(true);

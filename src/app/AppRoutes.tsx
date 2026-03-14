@@ -124,7 +124,10 @@ export const AppRoutes: React.FC = () => {
           />
 
           {/* PINBALL TABLE */}
-          <Route path="/pinball/:name" element={<PinballPage />} />
+          <Route
+            path="/pinball/:name"
+            element={<PinballPage muted={muted} setMuted={setMuted} />}
+          />
 
           {/* HIGHSCORE */}
           <Route
