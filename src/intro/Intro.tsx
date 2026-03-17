@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { IntroContainer, Video, AudioToggleButton } from "./Intro.styled";
+// import { IntroContainer, Video, AudioToggleButton } from "./Intro.styled";
 import introVideo from "../assets/videos/intro-pinball-world-nosound-small.mp4";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+
+import * as S from "./Intro.styled";
 
 /**
  * ❗ IMPORTANT
@@ -18,6 +20,10 @@ export interface IntroProps {
 const Intro: React.FC<IntroProps> = ({ muted, setMuted }) => {
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const handleSkip = () => {
+    videoRef.current?.pause();
+    navigate("/accueil");
+  };
 
   useEffect(() => {
     const video = videoRef.current;
@@ -35,18 +41,22 @@ const Intro: React.FC<IntroProps> = ({ muted, setMuted }) => {
   }, [navigate]);
 
   return (
-    <IntroContainer>
+    <S.IntroContainer>
       {/* 🎥 VIDEO INTRO (SANS AUDIO) */}
-      <Video ref={videoRef} autoPlay muted playsInline>
+      <S.Video ref={videoRef} autoPlay muted playsInline>
         <source src={introVideo} type="video/mp4" />
         Votre navigateur ne supporte pas la vidéo.
-      </Video>
+      </S.Video>
 
       {/* 🔊 CONTROLE DU SON GLOBAL (AppRoutes) */}
-      <AudioToggleButton onClick={() => setMuted((m) => !m)}>
+      <S.AudioToggleButton onClick={() => setMuted((m) => !m)}>
         {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
-      </AudioToggleButton>
-    </IntroContainer>
+      </S.AudioToggleButton>
+      {/* ⏭ bouton skip */}
+      <S.SkipButton onClick={handleSkip}>
+        <span>SKIP INTRO</span>
+      </S.SkipButton>
+    </S.IntroContainer>
   );
 };
 

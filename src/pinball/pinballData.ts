@@ -29,6 +29,25 @@ import holeFx from "../assets/audio/hole.wav";
 
 export type PinballKey = "AiRobot" | "Mythology" | "Entity" | "GoldWheel";
 
+export interface Collider {
+  type: "bumper" | "hole";
+  x: number;
+  y: number;
+  radius: number;
+  force?: number;
+  score: number;
+}
+
+export interface LettersConfig {
+  word: string;
+  positions: { x: number; y: number }[];
+}
+
+export interface PhysicsConfig {
+  gravity: number;
+  bounce: number;
+}
+
 export interface PinballConfig {
   key: PinballKey;
   title: string;
@@ -42,6 +61,16 @@ export interface PinballConfig {
   musicPreview?: string;
   musicGame?: string;
   musicEnd?: string;
+
+  physics: PhysicsConfig;
+
+  colliders: Collider[];
+
+  letters: LettersConfig;
+
+  scoring: {
+    multiplierMax: number;
+  };
 
   fx?: {
     launch?: string;
@@ -64,6 +93,31 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     musicGame: IgnitionMusic,
     musicEnd: IgnitionMusic,
     launch: launcherImg,
+
+    physics: {
+      gravity: -0.002,
+      bounce: 0.8,
+    },
+
+    colliders: [
+      { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
+      { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
+    ],
+
+    letters: {
+      word: "ROBOT",
+      positions: [
+        { x: -2, y: 12 },
+        { x: -1, y: 13 },
+        { x: 0, y: 14 },
+        { x: 1, y: 13 },
+        { x: 2, y: 12 },
+      ],
+    },
+
+    scoring: {
+      multiplierMax: 8,
+    },
     fx: {
       bumper: bumperFx,
       flipper: flipperFx,
@@ -82,6 +136,35 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     musicGame: BeatBoxMusic,
     musicEnd: BeatBoxMusic,
     launch: launcherImg,
+
+    physics: {
+      gravity: -0.002,
+      bounce: 0.8,
+    },
+
+    colliders: [
+      { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
+      { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
+    ],
+
+    letters: {
+      word: "MYTHOLOGY",
+      positions: [
+        { x: -2, y: 12 },
+        { x: -1, y: 13 },
+        { x: 0, y: 14 },
+        { x: 1, y: 13 },
+        { x: 2, y: 12 },
+        { x: 3, y: 11 },
+        { x: 4, y: 10 },
+        { x: 5, y: 9 },
+        { x: 6, y: 8 },
+      ],
+    },
+
+    scoring: {
+      multiplierMax: 10,
+    },
     fx: {
       bumper: bumperFx,
       flipper: flipperFx,
@@ -100,6 +183,32 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     musicGame: NightmareMusic,
     musicEnd: NightmareMusic,
     launch: launcherImg,
+
+    physics: {
+      gravity: -0.002,
+      bounce: 0.8,
+    },
+
+    colliders: [
+      { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
+      { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
+    ],
+
+    letters: {
+      word: "ENTITY",
+      positions: [
+        { x: -2, y: 12 },
+        { x: -1, y: 13 },
+        { x: 0, y: 14 },
+        { x: 1, y: 13 },
+        { x: 2, y: 12 },
+        { x: 3, y: 11 },
+      ],
+    },
+
+    scoring: {
+      multiplierMax: 10,
+    },
     fx: {
       bumper: bumperFx,
       flipper: flipperFx,
@@ -118,6 +227,32 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     musicGame: SteelWheelMusic,
     musicEnd: SteelWheelMusic,
     launch: launcherImg,
+    physics: {
+      gravity: -0.002,
+      bounce: 0.8,
+    },
+
+    colliders: [
+      { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
+      { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
+    ],
+
+    letters: {
+      word: "GOLDWHEEL",
+      positions: [
+        { x: -2, y: 12 },
+        { x: -1, y: 13 },
+        { x: 0, y: 14 },
+        { x: 1, y: 13 },
+        { x: 2, y: 12 },
+        { x: 3, y: 11 },
+      ],
+    },
+
+    scoring: {
+      multiplierMax: 7,
+    },
+
     fx: {
       bumper: bumperFx,
       flipper: flipperFx,

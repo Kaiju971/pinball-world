@@ -12,9 +12,13 @@ type Props = {
 };
 
 const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
+  /** ---------------- CONFIG ---------------- */
+
   const { name } = useParams<{ name: PinballKey }>();
   const tableKey = (name || "AiRobot") as PinballKey;
   const tableConfig = pinballData[tableKey];
+
+  /** ---------------- REFS ---------------- */
 
   const mountRef = useRef<HTMLDivElement>(null);
 
@@ -23,9 +27,6 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
   const endMusic = useRef<HTMLAudioElement | null>(null);
 
   const ballRef = useRef<THREE.Mesh | null>(null);
-
-  const [loading, setLoading] = useState(true);
-  const [ballsLeft, setBallsLeft] = useState(3);
 
   const readyToShootRef = useRef(true);
   const gameStartedRef = useRef(false);
@@ -37,11 +38,22 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
   const previewDirRef = useRef<1 | -1>(1);
   const previewYRef = useRef(10);
 
+  /** ---------------- STATE ---------------- */
+
+  const [loading, setLoading] = useState(true);
+  const [ballsLeft, setBallsLeft] = useState(3);
+
+  /** ---------------- CONSTANTS ---------------- */
+
+  const gravity = tableConfig.physics.gravity;
+  const minY = 0.6;
+  const maxY = 19;
+
   const previewMinY = 0;
   const previewMaxY = 16.15;
   const previewSpeed = 0.02;
 
-  /** ---------------- AUDIO ---------------- */
+  /** ---------------- AUDIO INIT ---------------- */
 
   useEffect(() => {
     previewMusic.current = new Audio(tableConfig.musicPreview);
@@ -65,13 +77,15 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     };
   }, [tableKey]);
 
+  /** ---------------- AUDIO MUTE SYNC ---------------- */
+
   useEffect(() => {
     if (previewMusic.current) previewMusic.current.muted = muted;
     if (gameMusic.current) gameMusic.current.muted = muted;
     if (endMusic.current) endMusic.current.muted = muted;
   }, [muted]);
 
-  /** ---------------- THREE ---------------- */
+  /** ---------------- THREE SCENE ---------------- */
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -81,12 +95,12 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     const manager = new THREE.LoadingManager();
 
     manager.onLoad = () => {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1600);
+      setTimeout(() => setLoading(false), 1200);
     };
 
     const loader = new THREE.TextureLoader(manager);
+
+    /** RENDERER */
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     const width = mountRef.current.clientWidth;
@@ -98,7 +112,11 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     mountRef.current.innerHTML = "";
     mountRef.current.appendChild(renderer.domElement);
 
+    /** SCENE */
+
     const scene = new THREE.Scene();
+
+    /** CAMERA */
 
     const aspect = width / height;
     const viewSize = 4.7;
@@ -145,13 +163,30 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     scene.add(ball);
     ballRef.current = ball;
 
-    /** PHYSICS */
+    /** COLLISIONS */
 
-    const gravity = -0.002;
-    const minY = 0.6;
-    const maxY = 19;
+    const handleCollisions = () => {
+      tableConfig.colliders.forEach((c) => {
+        const dist = Math.abs(ballYRef.current - c.y);
+
+        if (dist < c.radius) {
+          velocityRef.current = c.force || 0.05;
+
+          // 🔊 FX futur ici
+          // 🎯 SCORE futur ici
+
+          console.log("HIT:", c.type);
+        }
+      });
+    };
+
+    /** GAME LOOP */
 
     const animate = () => {
+      handleCollisions();
+
+      /** PREVIEW CAMERA */
+
       if (previewActiveRef.current) {
         previewYRef.current += previewSpeed * previewDirRef.current;
 
@@ -161,9 +196,13 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
         camera.position.y = previewYRef.current;
       }
 
+      /** GAME PHYSICS */
+
       if (gameStartedRef.current) {
         velocityRef.current += gravity;
         ballYRef.current += velocityRef.current;
+
+        /** BALL LOST */
 
         if (ballYRef.current <= minY) {
           setBallsLeft((b) => {
