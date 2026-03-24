@@ -94,19 +94,6 @@ const Hiscore: React.FC<HiscoreProps> = ({ muted, setMuted }) => {
         >
           <S.Button onClick={() => navigate("/Accueil")}>BACK</S.Button>
         </div>
-        {/* <div>
-          <S.Button
-            onClick={() => openAdd("BeatBox", Math.floor(Math.random() * 2000))}
-          >
-            Add score
-          </S.Button>
-          <S.Button
-            onClick={() => setOpenReset(true)}
-            style={{ marginLeft: 12 }}
-          >
-            Reset Scores
-          </S.Button>
-        </div> */}
       </S.Controls>
 
       <S.ScoreGrid>

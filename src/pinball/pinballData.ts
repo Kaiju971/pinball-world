@@ -2,20 +2,22 @@ import AiRobotImg from "../assets/images/AI PINBALL PINBALL.png";
 import MythologyImg from "../assets/images/MYTHOLOGY PINBALL.png";
 import EntityImg from "../assets/images/ENTITY PINBALL.png";
 import GoldWheelImg from "../assets/images/GOLDWHEEL PINBALL.png";
-
-import BeatBoxMusic from "../assets/audio/Rise Of The Hero 11-02-2026 12-48_1.wav";
-
-
-
-import IgnitionMusic from "../assets/audio/GameIgnition.mp3";
-
-
-
+// 🎵 musiques MYTHOLOGY
+import MythologyMusic from "../assets/audio/RiseOfTheHero.wav";
+import IntroMythology from "../assets/audio/IntroMytho.mp3";
+import LaunchMythology from "../assets/audio/LaunchMytho.mp3";
+import EndMythology from "../assets/audio/EndMytho.mp3";
+import ExtraBallMythology from "../assets/audio/BonusExtraBallMytho.mp3";
+// 🎵 musiques AI-ROBOT
+import AiRobotMusic from "../assets/audio/GameAiRobot.mp3";
+import IntroAiRobot from "../assets/audio/IntroAiRobot.mp3";
+import LaunchAiRobot from "../assets/audio/LaunchIgnition.mp3";
+import EndAiRobot from "../assets/audio/EndAiRobot.mp3";
+import ExtraBallAiRobot from "../assets/audio/BonusExtraBallAiRobot.mp3";
+// 🎵 musiques ENTITY
 import NightmareMusic from "../assets/audio/GameNightmare.mp3";
 import IntroEntity from "../assets/audio/intro pinball ENTITY.mp3";
-
-
-
+// 🎵 musiques GOLDWHEEL
 import SteelWheelMusic from "../assets/audio/GameSteelWheel.mp3";
 
 import launcherImg from "../assets/images/launcher.png";
@@ -81,7 +83,6 @@ export interface PinballConfig {
   };
 }
 
-
 export const pinballData: Record<PinballKey, PinballConfig> = {
   AiRobot: {
     key: "AiRobot",
@@ -89,10 +90,10 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     img: AiRobotImg,
     ballImg: ball3,
     themeColor: "#b30000",
-    musicPreview: IgnitionMusic,
-    musicGame: IgnitionMusic,
-    musicEnd: IgnitionMusic,
-    launch: launcherImg,
+    musicPreview: IntroAiRobot,
+    musicGame: AiRobotMusic,
+    musicEnd: EndAiRobot,
+    launch: LaunchAiRobot,
 
     physics: {
       gravity: -0.002,
@@ -122,7 +123,7 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
       bumper: bumperFx,
       flipper: flipperFx,
       hole: holeFx,
-      fxReady: holeFx,
+      fxReady: ExtraBallAiRobot,
     },
   },
 
@@ -132,10 +133,10 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     img: MythologyImg,
     ballImg: ball2,
     themeColor: "#ff8c00",
-    musicPreview: BeatBoxMusic,
-    musicGame: BeatBoxMusic,
-    musicEnd: BeatBoxMusic,
-    launch: launcherImg,
+    musicPreview: IntroMythology,
+    musicGame: MythologyMusic,
+    musicEnd: EndMythology,
+    launch: LaunchMythology,
 
     physics: {
       gravity: -0.002,
@@ -169,7 +170,7 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
       bumper: bumperFx,
       flipper: flipperFx,
       hole: holeFx,
-      fxReady: holeFx,
+      fxReady: ExtraBallMythology,
     },
   },
 
@@ -185,7 +186,7 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     launch: launcherImg,
 
     physics: {
-      gravity: -0.002,
+      gravity: -0.0015,
       bounce: 0.8,
     },
 
