@@ -15,8 +15,13 @@ import LaunchAiRobot from "../assets/audio/LaunchIgnition.mp3";
 import EndAiRobot from "../assets/audio/EndAiRobot.mp3";
 import ExtraBallAiRobot from "../assets/audio/BonusExtraBallAiRobot.mp3";
 // 🎵 musiques ENTITY
-import NightmareMusic from "../assets/audio/GameNightmare.mp3";
+
 import IntroEntity from "../assets/audio/intro pinball ENTITY.mp3";
+import EndEntity from "../assets/audio/EndEntity.mp3";
+import ExtraBallEntity from "../assets/audio/GameNightmare.mp3";
+import EntityGame from "../assets/audio/EntityGame.mp3";
+import LaunchEntity from "../assets/audio/LaunchEntity.mp3";
+
 // 🎵 musiques GOLDWHEEL
 import SteelWheelMusic from "../assets/audio/GameSteelWheel.mp3";
 
@@ -320,9 +325,9 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     ballImg: ball3,
     themeColor: "#244659",
     musicPreview: IntroEntity,
-    musicGame: NightmareMusic,
-    musicEnd: NightmareMusic,
-    launch: launcherImg,
+    musicGame: EntityGame,
+    musicEnd: EndEntity,
+    launch: LaunchEntity,
 
     physics: {
       gravity: -0.004,
@@ -418,7 +423,7 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
       bumper: bumperFx,
       flipper: flipperFx,
       hole: holeFx,
-      fxReady: holeFx,
+      fxReady: ExtraBallEntity,
     },
   },
 
