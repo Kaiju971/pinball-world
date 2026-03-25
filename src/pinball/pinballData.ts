@@ -40,9 +40,29 @@ export interface Collider {
   score: number;
 }
 
-export interface LettersConfig {
-  word: string;
-  positions: { x: number; y: number }[];
+export interface LightElement {
+  id: string;
+
+  type: "letter" | "arrow" | "circle" | "custom";
+
+  /** affichage */
+  value?: string;
+
+  /** position */
+  x: number;
+  y: number;
+
+  /** comportement */
+  blink?: boolean;
+  alwaysOn?: boolean;
+
+  /** gameplay */
+  group?: string; // ex: "ROBOT", "BONUS", etc.
+  score?: number;
+
+  /** style spécifique */
+  color?: string;
+  size?: number;
 }
 
 export interface PhysicsConfig {
@@ -68,7 +88,7 @@ export interface PinballConfig {
 
   colliders: Collider[];
 
-  letters: LettersConfig;
+  elements: LightElement[];
 
   scoring: {
     multiplierMax: number;
@@ -96,7 +116,7 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     launch: LaunchAiRobot,
 
     physics: {
-      gravity: -0.002,
+      gravity: -0.004,
       bounce: 0.8,
     },
 
@@ -105,16 +125,62 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
       { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
     ],
 
-    letters: {
-      word: "ROBOT",
-      positions: [
-        { x: -2, y: 12 },
-        { x: -1, y: 13 },
-        { x: 0, y: 14 },
-        { x: 1, y: 13 },
-        { x: 2, y: 12 },
-      ],
-    },
+    elements: [
+      {
+        id: "r",
+        type: "letter",
+        value: "R",
+        x: -1.4,
+        y: 7,
+        group: "ROBOT",
+        blink: true,
+      },
+      {
+        id: "o1",
+        type: "letter",
+        value: "O",
+        x: -0.7,
+        y: 7,
+        group: "ROBOT",
+        blink: true,
+      },
+      {
+        id: "b",
+        type: "letter",
+        value: "B",
+        x: -0.09,
+        y: 7,
+        group: "ROBOT",
+        blink: true,
+      },
+      {
+        id: "o2",
+        type: "letter",
+        value: "O",
+        x: 0.64,
+        y: 7,
+        group: "ROBOT",
+        blink: true,
+      },
+      {
+        id: "t",
+        type: "letter",
+        value: "T",
+        x: 1.26,
+        y: 7,
+        group: "ROBOT",
+        blink: true,
+      },
+
+      { id: "arrow1", type: "arrow", x: 3, y: 8, blink: true },
+      {
+        id: "circle1",
+        type: "circle",
+        x: -3,
+        y: 6,
+        blink: true,
+      },
+    ],
 
     scoring: {
       multiplierMax: 8,
@@ -139,7 +205,7 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     launch: LaunchMythology,
 
     physics: {
-      gravity: -0.002,
+      gravity: -0.004,
       bounce: 0.8,
     },
 
@@ -148,20 +214,93 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
       { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
     ],
 
-    letters: {
-      word: "MYTHOLOGY",
-      positions: [
-        { x: -2, y: 12 },
-        { x: -1, y: 13 },
-        { x: 0, y: 14 },
-        { x: 1, y: 13 },
-        { x: 2, y: 12 },
-        { x: 3, y: 11 },
-        { x: 4, y: 10 },
-        { x: 5, y: 9 },
-        { x: 6, y: 8 },
-      ],
-    },
+    elements: [
+      {
+        id: "m",
+        type: "letter",
+        value: "M",
+        x: -2.5,
+        y: 4.8,
+        group: "MYTHOLOGY",
+        blink: true,
+      },
+      {
+        id: "y1",
+        type: "letter",
+        value: "Y",
+        x: -1.9,
+        y: 4.8,
+        group: "MYTHOLOGY",
+        blink: true,
+      },
+      {
+        id: "t",
+        type: "letter",
+        value: "T",
+        x: -1.4,
+        y: 4.8,
+        group: "MYTHOLOGY",
+        blink: true,
+      },
+      {
+        id: "h",
+        type: "letter",
+        value: "H",
+        x: -0.85,
+        y: 4.8,
+        group: "MYTHOLOGY",
+        blink: true,
+      },
+      {
+        id: "o1",
+        type: "letter",
+        value: "O",
+        x: -0.26,
+        y: 4.8,
+        group: "MYTHOLOGY",
+        blink: true,
+      },
+      {
+        id: "l",
+        type: "letter",
+        value: "L",
+        x: 0.26,
+        y: 4.8,
+        group: "MYTHOLOGY",
+        blink: true,
+      },
+      {
+        id: "o2",
+        type: "letter",
+        value: "O",
+        x: 0.82,
+        y: 4.8,
+        group: "MYTHOLOGY",
+        blink: true,
+      },
+      {
+        id: "g",
+        type: "letter",
+        value: "G",
+        x: 1.45,
+        y: 4.8,
+        group: "MYTHOLOGY",
+        blink: true,
+      },
+      {
+        id: "y2",
+        type: "letter",
+        value: "Y",
+        x: 1.94,
+        y: 4.8,
+        group: "MYTHOLOGY",
+        blink: true,
+      },
+
+      { id: "arrow1", type: "arrow", x: -4, y: 10, alwaysOn: true },
+
+      { id: "special", type: "custom", x: 4.2, y: 19 },
+    ],
 
     scoring: {
       multiplierMax: 10,
@@ -186,7 +325,7 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     launch: launcherImg,
 
     physics: {
-      gravity: -0.0015,
+      gravity: -0.004,
       bounce: 0.8,
     },
 
@@ -195,17 +334,82 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
       { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
     ],
 
-    letters: {
-      word: "ENTITY",
-      positions: [
-        { x: -2, y: 12 },
-        { x: -1, y: 13 },
-        { x: 0, y: 14 },
-        { x: 1, y: 13 },
-        { x: 2, y: 12 },
-        { x: 3, y: 11 },
-      ],
-    },
+    elements: [
+      {
+        id: "e",
+        type: "letter",
+        value: "E",
+        x: -1.45,
+        y: 4.8,
+        group: "ENTITY",
+        blink: true,
+      },
+      {
+        id: "n",
+        type: "letter",
+        value: "N",
+        x: -0.9,
+        y: 4.8,
+        group: "ENTITY",
+        blink: true,
+      },
+      {
+        id: "t1",
+        type: "letter",
+        value: "T",
+        x: -0.38,
+        y: 4.8,
+        group: "ENTITY",
+        blink: true,
+      },
+      {
+        id: "i",
+        type: "letter",
+        value: "I",
+        x: 0,
+        y: 4.8,
+        group: "ENTITY",
+        blink: true,
+      },
+      {
+        id: "t2",
+        type: "letter",
+        value: "T",
+        x: 0.36,
+        y: 4.8,
+        group: "ENTITY",
+        blink: true,
+      },
+      {
+        id: "y",
+        type: "letter",
+        value: "Y",
+        x: 0.84,
+        y: 4.8,
+        group: "ENTITY",
+        blink: true,
+      },
+      {
+        id: "bonus1",
+        type: "circle",
+        x: 0,
+        y: 10,
+        group: "BONUS",
+        blink: true,
+      },
+      {
+        id: "bonus2",
+        type: "circle",
+        x: 1,
+        y: 11,
+        group: "BONUS",
+        blink: true,
+      },
+
+      { id: "arrow1", type: "arrow", x: -2, y: 10, alwaysOn: true },
+
+      { id: "special", type: "custom", x: 2, y: 12 },
+    ],
 
     scoring: {
       multiplierMax: 10,
@@ -229,7 +433,7 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     musicEnd: SteelWheelMusic,
     launch: launcherImg,
     physics: {
-      gravity: -0.002,
+      gravity: -0.004,
       bounce: 0.8,
     },
 
@@ -238,17 +442,109 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
       { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
     ],
 
-    letters: {
-      word: "GOLDWHEEL",
-      positions: [
-        { x: -2, y: 12 },
-        { x: -1, y: 13 },
-        { x: 0, y: 14 },
-        { x: 1, y: 13 },
-        { x: 2, y: 12 },
-        { x: 3, y: 11 },
-      ],
-    },
+    elements: [
+      {
+        id: "g",
+        type: "letter",
+        value: "G",
+        x: -2.27,
+        y: 4.2,
+        group: "GOLDWHEEL",
+        blink: true,
+      },
+      {
+        id: "o",
+        type: "letter",
+        value: "o",
+        x: -1.7,
+        y: 4.2,
+        group: "GOLDWHEEL",
+        blink: true,
+      },
+      {
+        id: "l1",
+        type: "letter",
+        value: "l",
+        x: -1.33,
+        y: 4.2,
+        group: "GOLDWHEEL",
+        blink: true,
+      },
+      {
+        id: "d",
+        type: "letter",
+        value: "d",
+        x: -0.93,
+        y: 4.2,
+        group: "GOLDWHEEL",
+        blink: true,
+      },
+      {
+        id: "w",
+        type: "letter",
+        value: "W",
+        x: -0.02,
+        y: 4.2,
+        group: "GOLDWHEEL",
+        blink: true,
+      },
+      {
+        id: "h",
+        type: "letter",
+        value: "h",
+        x: 0.7,
+        y: 4.2,
+        group: "GOLDWHEEL",
+        blink: true,
+      },
+      {
+        id: "e1",
+        type: "letter",
+        value: "e",
+        x: 1.2,
+        y: 4.2,
+        group: "GOLDWHEEL",
+        blink: true,
+      },
+      {
+        id: "e2",
+        type: "letter",
+        value: "e",
+        x: 1.73,
+        y: 4.2,
+        group: "GOLDWHEEL",
+        blink: true,
+      },
+      {
+        id: "l2",
+        type: "letter",
+        value: "l",
+        x: 2.1,
+        y: 4.2,
+        group: "GOLDWHEEL",
+        blink: true,
+      },
+      {
+        id: "bonus1",
+        type: "circle",
+        x: 0,
+        y: 10,
+        group: "BONUS",
+        blink: true,
+      },
+      {
+        id: "bonus2",
+        type: "circle",
+        x: 1,
+        y: 11,
+        group: "BONUS",
+        blink: true,
+      },
+
+      { id: "arrow1", type: "arrow", x: 1.8, y: 16, alwaysOn: true },
+
+      { id: "special", type: "custom", x: 2, y: 12 },
+    ],
 
     scoring: {
       multiplierMax: 7,
