@@ -1,25 +1,52 @@
 // src/pinball/Pinball.styled.tsx
-import { styled } from "@mui/material/styles";
+import { styled, keyframes } from "@mui/material/styles";
+
+const scrollText = keyframes`
+  0%   { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+`;
 
 export const MainContainer = styled("div")({});
 
+// ── Un seul HUD en haut ──
 export const HUD = styled("div")({
   background: "linear-gradient(#020024, #030337, #000)",
   borderBottom: "6px solid #9f9f9f",
   width: "100vw",
   height: "20vh",
   position: "absolute",
-  top: -20,
+  top: 0,
   zIndex: 1,
   display: "flex",
-  flexDirection: "column",
-  alignItems: "flex-start",
+  alignItems: "flex-end",
+  overflow: "hidden", // clip le texte défilant
+  whiteSpace: "nowrap",
+  padding: "1 0 12px 240px",
 });
 
+// ── Score — visible uniquement en phase playing / gameover ──
 export const Score = styled("div")({
   color: "orange",
   fontSize: "167px",
+  lineHeight: 1,
 });
+
+// ── Texte défilant — même fontSize que Score ──
+export const ScrollingText = styled("span")<{ duration?: number }>(
+  ({ duration = 18 }) => ({
+    display: "inline-block",
+    fontFamily: "monospace",
+    fontSize: "167px", // même taille que Score
+    lineHeight: 1,
+    fontWeight: "bold",
+    letterSpacing: "0.05em",
+    textTransform: "uppercase",
+    color: "orange",
+    whiteSpace: "nowrap",
+    animation: `${scrollText} ${duration}s linear infinite`,
+    willChange: "transform",
+  }),
+);
 
 export const Bonus = styled("div")({
   color: "orange",
@@ -70,7 +97,6 @@ export const Controls = styled("div")({
   gap: 8,
 });
 
-/* 🔊 Bouton Son */
 export const SoundButton = styled("button")({
   position: "absolute",
   top: "20px",

@@ -15,13 +15,11 @@ import LaunchAiRobot from "../assets/audio/LaunchIgnition.mp3";
 import EndAiRobot from "../assets/audio/EndAiRobot.mp3";
 import ExtraBallAiRobot from "../assets/audio/BonusExtraBallAiRobot.mp3";
 // 🎵 musiques ENTITY
-
 import IntroEntity from "../assets/audio/intro pinball ENTITY.mp3";
 import EndEntity from "../assets/audio/EndEntity.mp3";
 import ExtraBallEntity from "../assets/audio/GameNightmare.mp3";
 import EntityGame from "../assets/audio/EntityGame.mp3";
 import LaunchEntity from "../assets/audio/LaunchEntity.mp3";
-
 // 🎵 musiques GOLDWHEEL
 import SteelWheelMusic from "../assets/audio/GameSteelWheel.mp3";
 
@@ -47,7 +45,6 @@ export interface Collider {
 
 export interface LightElement {
   id: string;
-
   type: "letter" | "arrow" | "circle" | "custom";
 
   /** affichage */
@@ -62,12 +59,13 @@ export interface LightElement {
   alwaysOn?: boolean;
 
   /** gameplay */
-  group?: string; // ex: "ROBOT", "BONUS", etc.
+  group?: string;
   score?: number;
 
-  /** style spécifique */
+  /** style — size = taille du PlaneGeometry (ex: 0.6, 0.9, 1.2) */
   color?: string;
-  size?: number;
+  borderColor?: string; // ✅ nouveau
+  size?: number; // taille individuelle du mesh
 }
 
 export interface PhysicsConfig {
@@ -81,18 +79,14 @@ export interface PinballConfig {
   img: string;
   ballImg?: string;
   themeColor: string;
-
   launch?: string;
 
-  // 🎵 musiques
   musicPreview?: string;
   musicGame?: string;
   musicEnd?: string;
 
   physics: PhysicsConfig;
-
   colliders: Collider[];
-
   elements: LightElement[];
 
   scoring: {
@@ -114,16 +108,13 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     title: "AiRobot",
     img: AiRobotImg,
     ballImg: ball3,
-    themeColor: "#b30000",
+    themeColor: "#FF0004",
     musicPreview: IntroAiRobot,
     musicGame: AiRobotMusic,
     musicEnd: EndAiRobot,
     launch: LaunchAiRobot,
 
-    physics: {
-      gravity: -0.004,
-      bounce: 0.8,
-    },
+    physics: { gravity: -0.004, bounce: 0.8 },
 
     colliders: [
       { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
@@ -139,6 +130,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 7,
         group: "ROBOT",
         blink: true,
+        size: 0.7,
+        borderColor: "#ff4444",
       },
       {
         id: "o1",
@@ -148,6 +141,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 7,
         group: "ROBOT",
         blink: true,
+        size: 0.7,
+        borderColor: "#ff4444",
       },
       {
         id: "b",
@@ -157,6 +152,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 7,
         group: "ROBOT",
         blink: true,
+        size: 0.7,
+        borderColor: "#ff4444",
       },
       {
         id: "o2",
@@ -166,6 +163,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 7,
         group: "ROBOT",
         blink: true,
+        size: 0.7,
+        borderColor: "#ff4444",
       },
       {
         id: "t",
@@ -175,21 +174,30 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 7,
         group: "ROBOT",
         blink: true,
+        size: 0.7,
+        borderColor: "#ff4444",
       },
-
-      { id: "arrow1", type: "arrow", x: 3, y: 8, blink: true },
+      {
+        id: "arrow1",
+        type: "arrow",
+        x: 3,
+        y: 8,
+        blink: true,
+        size: 0.8,
+        borderColor: "#ff4444",
+      },
       {
         id: "circle1",
         type: "circle",
         x: -3,
         y: 6,
         blink: true,
+        size: 0.5,
+        borderColor: "#ff4444",
       },
     ],
 
-    scoring: {
-      multiplierMax: 8,
-    },
+    scoring: { multiplierMax: 8 },
     fx: {
       bumper: bumperFx,
       flipper: flipperFx,
@@ -203,16 +211,13 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     title: "Mythology",
     img: MythologyImg,
     ballImg: ball2,
-    themeColor: "#ff8c00",
+    themeColor: "#FFD000",
     musicPreview: IntroMythology,
     musicGame: MythologyMusic,
     musicEnd: EndMythology,
     launch: LaunchMythology,
 
-    physics: {
-      gravity: -0.004,
-      bounce: 0.8,
-    },
+    physics: { gravity: -0.004, bounce: 0.8 },
 
     colliders: [
       { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
@@ -228,6 +233,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "MYTHOLOGY",
         blink: true,
+        size: 0.55,
+        borderColor: "#8D750D",
       },
       {
         id: "y1",
@@ -237,6 +244,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "MYTHOLOGY",
         blink: true,
+        size: 0.55,
+        borderColor: "#8D750D",
       },
       {
         id: "t",
@@ -246,6 +255,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "MYTHOLOGY",
         blink: true,
+        size: 0.55,
+        borderColor: "#8D750D",
       },
       {
         id: "h",
@@ -255,6 +266,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "MYTHOLOGY",
         blink: true,
+        size: 0.55,
+        borderColor: "#8D750D",
       },
       {
         id: "o1",
@@ -264,6 +277,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "MYTHOLOGY",
         blink: true,
+        size: 0.55,
+        borderColor: "#8D750D",
       },
       {
         id: "l",
@@ -273,6 +288,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "MYTHOLOGY",
         blink: true,
+        size: 0.55,
+        borderColor: "#8D750D",
       },
       {
         id: "o2",
@@ -282,6 +299,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "MYTHOLOGY",
         blink: true,
+        size: 0.55,
+        borderColor: "#8D750D",
       },
       {
         id: "g",
@@ -291,6 +310,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "MYTHOLOGY",
         blink: true,
+        size: 0.55,
+        borderColor: "#8D750D",
       },
       {
         id: "y2",
@@ -300,16 +321,29 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "MYTHOLOGY",
         blink: true,
+        size: 0.55,
+        borderColor: "#8D750D",
       },
-
-      { id: "arrow1", type: "arrow", x: -4, y: 10, alwaysOn: true },
-
-      { id: "special", type: "custom", x: 4.2, y: 19 },
+      {
+        id: "arrow1",
+        type: "arrow",
+        x: -4,
+        y: 10,
+        alwaysOn: true,
+        size: 0.9,
+        borderColor: "#ffaa00",
+      },
+      {
+        id: "special",
+        type: "custom",
+        x: 4.2,
+        y: 19,
+        size: 1.0,
+        borderColor: "#ffaa00",
+      },
     ],
 
-    scoring: {
-      multiplierMax: 10,
-    },
+    scoring: { multiplierMax: 10 },
     fx: {
       bumper: bumperFx,
       flipper: flipperFx,
@@ -323,16 +357,13 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     title: "Entity",
     img: EntityImg,
     ballImg: ball3,
-    themeColor: "#244659",
+    themeColor: "#FF0000",
     musicPreview: IntroEntity,
     musicGame: EntityGame,
     musicEnd: EndEntity,
     launch: LaunchEntity,
 
-    physics: {
-      gravity: -0.004,
-      bounce: 0.8,
-    },
+    physics: { gravity: -0.004, bounce: 0.8 },
 
     colliders: [
       { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
@@ -348,6 +379,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "ENTITY",
         blink: true,
+        size: 0.6,
+        borderColor: "#008F62",
       },
       {
         id: "n",
@@ -357,6 +390,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "ENTITY",
         blink: true,
+        size: 0.6,
+        borderColor: "#008F62",
       },
       {
         id: "t1",
@@ -366,6 +401,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "ENTITY",
         blink: true,
+        size: 0.6,
+        borderColor: "#008F62",
       },
       {
         id: "i",
@@ -375,6 +412,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "ENTITY",
         blink: true,
+        size: 0.6,
+        borderColor: "#008F62",
       },
       {
         id: "t2",
@@ -384,6 +423,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "ENTITY",
         blink: true,
+        size: 0.6,
+        borderColor: "#008F62",
       },
       {
         id: "y",
@@ -393,6 +434,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.8,
         group: "ENTITY",
         blink: true,
+        size: 0.6,
+        borderColor: "#008F62",
       },
       {
         id: "bonus1",
@@ -401,6 +444,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 10,
         group: "BONUS",
         blink: true,
+        size: 0.4,
+        borderColor: "#cc0000",
       },
       {
         id: "bonus2",
@@ -409,16 +454,29 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 11,
         group: "BONUS",
         blink: true,
+        size: 0.4,
+        borderColor: "#cc0000",
       },
-
-      { id: "arrow1", type: "arrow", x: -2, y: 10, alwaysOn: true },
-
-      { id: "special", type: "custom", x: 2, y: 12 },
+      {
+        id: "arrow1",
+        type: "arrow",
+        x: -2,
+        y: 10,
+        alwaysOn: true,
+        size: 0.8,
+        borderColor: "#cc0000",
+      },
+      {
+        id: "special",
+        type: "custom",
+        x: 2,
+        y: 12,
+        size: 0.9,
+        borderColor: "#cc0000",
+      },
     ],
 
-    scoring: {
-      multiplierMax: 10,
-    },
+    scoring: { multiplierMax: 10 },
     fx: {
       bumper: bumperFx,
       flipper: flipperFx,
@@ -432,15 +490,13 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     title: "GoldWheel",
     img: GoldWheelImg,
     ballImg: ball1,
-    themeColor: "#7a4b2a",
+    themeColor: "#AC732E",
     musicPreview: SteelWheelMusic,
     musicGame: SteelWheelMusic,
     musicEnd: SteelWheelMusic,
     launch: launcherImg,
-    physics: {
-      gravity: -0.004,
-      bounce: 0.8,
-    },
+
+    physics: { gravity: -0.004, bounce: 0.8 },
 
     colliders: [
       { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
@@ -456,6 +512,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.2,
         group: "GOLDWHEEL",
         blink: true,
+        size: 0.55,
+        borderColor: "#7C2F00",
       },
       {
         id: "o",
@@ -465,6 +523,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.2,
         group: "GOLDWHEEL",
         blink: true,
+        size: 0.55,
+        borderColor: "#7C2F00",
       },
       {
         id: "l1",
@@ -474,6 +534,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.2,
         group: "GOLDWHEEL",
         blink: true,
+        size: 0.55,
+        borderColor: "#7C2F00",
       },
       {
         id: "d",
@@ -483,6 +545,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.2,
         group: "GOLDWHEEL",
         blink: true,
+        size: 0.55,
+        borderColor: "#7C2F00",
       },
       {
         id: "w",
@@ -492,6 +556,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.2,
         group: "GOLDWHEEL",
         blink: true,
+        size: 0.55,
+        borderColor: "#7C2F00",
       },
       {
         id: "h",
@@ -501,6 +567,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.2,
         group: "GOLDWHEEL",
         blink: true,
+        size: 0.55,
+        borderColor: "#7C2F00",
       },
       {
         id: "e1",
@@ -510,6 +578,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.2,
         group: "GOLDWHEEL",
         blink: true,
+        size: 0.55,
+        borderColor: "#7C2F00",
       },
       {
         id: "e2",
@@ -519,6 +589,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.2,
         group: "GOLDWHEEL",
         blink: true,
+        size: 0.55,
+        borderColor: "#7C2F00",
       },
       {
         id: "l2",
@@ -528,6 +600,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 4.2,
         group: "GOLDWHEEL",
         blink: true,
+        size: 0.55,
+        borderColor: "#7C2F00",
       },
       {
         id: "bonus1",
@@ -536,6 +610,8 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 10,
         group: "BONUS",
         blink: true,
+        size: 0.4,
+        borderColor: "#d4a050",
       },
       {
         id: "bonus2",
@@ -544,17 +620,29 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         y: 11,
         group: "BONUS",
         blink: true,
+        size: 0.4,
+        borderColor: "#d4a050",
       },
-
-      { id: "arrow1", type: "arrow", x: 1.8, y: 16, alwaysOn: true },
-
-      { id: "special", type: "custom", x: 2, y: 12 },
+      {
+        id: "arrow1",
+        type: "arrow",
+        x: 1.8,
+        y: 16,
+        alwaysOn: true,
+        size: 0.9,
+        borderColor: "#d4a050",
+      },
+      {
+        id: "special",
+        type: "custom",
+        x: 2,
+        y: 12,
+        size: 0.9,
+        borderColor: "#d4a050",
+      },
     ],
 
-    scoring: {
-      multiplierMax: 7,
-    },
-
+    scoring: { multiplierMax: 7 },
     fx: {
       bumper: bumperFx,
       flipper: flipperFx,
