@@ -7,10 +7,7 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import * as S from "./Pinball.styled";
 
 // ─────────────────────────────────────────────
-// TEXTURE GENERATOR
-// Gère : letter / circle / arrow / custom / bumper / flipper / hole
-// Pour bumper/flipper/hole avec imgOff/imgOn → le swap est géré
-// séparément dans la boucle animate via THREE.TextureLoader
+// TEXTURE CANVAS — fallback si pas de PNG
 // ─────────────────────────────────────────────
 const CANVAS_SIZE = 256;
 
@@ -46,16 +43,13 @@ const createElementTexture = (
         ctx.strokeText(element.value ?? "?", half, half);
       ctx.fillText(element.value ?? "?", half, half);
       break;
-
     case "circle":
-    // bumper sans PNG → fallback cercle coloré
     case "bumper":
       ctx.beginPath();
       ctx.arc(half, half, 80, 0, Math.PI * 2);
       ctx.fill();
       if (border !== "transparent") ctx.stroke();
       break;
-
     case "arrow":
       ctx.beginPath();
       ctx.moveTo(40, 210);
@@ -65,9 +59,7 @@ const createElementTexture = (
       ctx.fill();
       if (border !== "transparent") ctx.stroke();
       break;
-
     case "custom":
-    // hole sans PNG → fallback cercle avec double contour
     case "hole":
       ctx.beginPath();
       ctx.arc(half, half, 70, 0, Math.PI * 2);
@@ -77,9 +69,7 @@ const createElementTexture = (
         ctx.stroke();
       }
       break;
-
-    // flipper sans PNG → fallback rectangle arrondi
-    case "flipper": {
+    case "flipper":
       ctx.beginPath();
       ctx.roundRect(20, half - 30, CANVAS_SIZE - 40, 60, 30);
       ctx.fill();
@@ -88,7 +78,6 @@ const createElementTexture = (
         ctx.stroke();
       }
       break;
-    }
   }
 
   const tex = new THREE.CanvasTexture(canvas);
@@ -100,15 +89,11 @@ const createElementTexture = (
 // TYPES
 // ─────────────────────────────────────────────
 type GamePhase = "preview" | "focusing" | "ready" | "playing" | "gameover";
-
 type Props = {
   muted: boolean;
   setMuted: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-// ─────────────────────────────────────────────
-// RÈGLES DÉFILANTES PAR TABLE (anglais)
-// ─────────────────────────────────────────────
 const scrollingTexts: Record<string, string> = {
   AiRobot:
     "✦ WELCOME TO AI ROBOT ✦  Hit bumpers to light up ROBOT letters  ✦  Complete FUEL and TECH to trigger bonus  ✦  Press ENTER when ready  ✦  Press ARROW DOWN to launch  ✦",
@@ -139,6 +124,9 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
   const elementsRef = useRef<THREE.Mesh[]>([]);
   const elementsStateRef = useRef<boolean[]>([]);
 
+  // Cache des textures PNG déjà chargées (évite de recréer à chaque frame)
+  const textureCacheRef = useRef<Map<string, THREE.Texture>>(new Map());
+
   const phaseRef = useRef<GamePhase>("preview");
   const multiplierRef = useRef(1);
   const velocityRef = useRef(0);
@@ -160,30 +148,26 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
   const FOCUS_THRESHOLD = 0.05;
 
   // ── AUDIO ──
-  const stopAll = () => {
+  const stopAll = () =>
     [previewMusic, launchMusic, gameMusic, endMusic].forEach((r) => {
       if (r.current) {
         r.current.pause();
         r.current.currentTime = 0;
       }
     });
-  };
-  const syncMute = (m: boolean) => {
+  const syncMute = (m: boolean) =>
     [previewMusic, launchMusic, gameMusic, endMusic].forEach((r) => {
       if (r.current) r.current.muted = m;
     });
-  };
 
   useEffect(() => {
     previewMusic.current = new Audio(tableConfig.musicPreview);
     launchMusic.current = new Audio(tableConfig.launch);
     gameMusic.current = new Audio(tableConfig.musicGame);
     endMusic.current = new Audio(tableConfig.musicEnd);
-
     previewMusic.current.loop = true;
     gameMusic.current.loop = true;
     endMusic.current.loop = false;
-
     syncMute(muted);
     previewMusic.current.play().catch(() => {});
     return () => stopAll();
@@ -195,10 +179,20 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
   useEffect(() => {
     if (!mountRef.current) return;
     setLoading(true);
+    textureCacheRef.current.clear();
 
     const manager = new THREE.LoadingManager();
     manager.onLoad = () => setTimeout(() => setLoading(false), 1200);
     const loader = new THREE.TextureLoader(manager);
+
+    // Helper : charge et met en cache
+    const getTexture = (src: string): THREE.Texture => {
+      if (textureCacheRef.current.has(src))
+        return textureCacheRef.current.get(src)!;
+      const tex = loader.load(src);
+      textureCacheRef.current.set(src, tex);
+      return tex;
+    };
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     const width = mountRef.current.clientWidth;
@@ -250,18 +244,13 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
 
     tableConfig.elements.forEach((el) => {
       const s = el.size ?? 0.9;
-
-      // Si l'élément a un PNG off/on → on charge imgOff par défaut
-      let initialTexture: THREE.Texture;
-      if (el.imgOff) {
-        initialTexture = loader.load(el.imgOff);
-      } else {
-        initialTexture = createElementTexture(el, "#222");
-      }
+      const initTex = el.imgOff
+        ? getTexture(el.imgOff)
+        : createElementTexture(el, "#222");
 
       const mesh = new THREE.Mesh(
         new THREE.PlaneGeometry(s, s),
-        new THREE.MeshBasicMaterial({ map: initialTexture, transparent: true }),
+        new THREE.MeshBasicMaterial({ map: initTex, transparent: true }),
       );
       mesh.position.set(el.x, el.y, 1.5);
       scene.add(mesh);
@@ -273,18 +262,18 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      const currentPhase = phaseRef.current;
+      const cur = phaseRef.current;
 
-      // PREVIEW : caméra monte/descend
-      if (currentPhase === "preview") {
+      // ── PREVIEW ──
+      if (cur === "preview") {
         previewYRef.current += previewSpeed * previewDirRef.current;
         if (previewYRef.current >= previewMaxY) previewDirRef.current = -1;
         if (previewYRef.current <= previewMinY) previewDirRef.current = 1;
         camera.position.y = previewYRef.current;
       }
 
-      // FOCUSING : caméra lerp vers la balle
-      if (currentPhase === "focusing") {
+      // ── FOCUSING ──
+      if (cur === "focusing") {
         const target = ballYRef.current;
         previewYRef.current = THREE.MathUtils.lerp(
           previewYRef.current,
@@ -300,42 +289,47 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
         }
       }
 
-      // Clignotement éléments (preview + focusing + ready)
-      if (
-        currentPhase === "preview" ||
-        currentPhase === "focusing" ||
-        currentPhase === "ready"
-      ) {
+      // ── CLIGNOTEMENT (preview + focusing + ready) ──
+      if (cur === "preview" || cur === "focusing" || cur === "ready") {
         const time = Date.now() * 0.005;
+
         elementsRef.current.forEach((mesh, i) => {
           const el = tableConfig.elements[i];
           const mat = mesh.material as THREE.MeshBasicMaterial;
 
-          // PNG off/on : on swap la texture selon l'état
-          if (el.imgOff && el.imgOn) {
-            const on =
-              el.alwaysOn || (el.blink && Math.sin(time + i * 0.8) > 0);
-            mat.map = loader.load(on ? el.imgOn : el.imgOff);
+          // alwaysOn → toujours visible, opacité 1
+          if (el.alwaysOn) {
+            mat.opacity = 1;
             mat.needsUpdate = true;
             return;
           }
 
-          // Canvas : comportement habituel
-          if (el.alwaysOn) {
-            mat.map = createElementTexture(el, tableConfig.themeColor, true);
-          } else if (!elementsStateRef.current[i]) {
-            const on = Math.sin(time + i * 0.8) > 0;
+          const sinVal = Math.sin(time + i * 0.8);
+          const on = sinVal > 0;
+
+          if (el.imgOff && el.imgOn) {
+            // PNG Off/On → swap texture
+            mat.map = getTexture(on ? el.imgOn : el.imgOff);
+            mat.opacity = 1;
+          } else if (el.imgOff) {
+            // PNG unique → clignotement par opacité
+            mat.map = getTexture(el.imgOff);
+            mat.opacity = on ? 1 : 0.15;
+          } else {
+            // Canvas → couleur
             mat.map = createElementTexture(
               el,
               on ? tableConfig.themeColor : "#111",
             );
+            mat.opacity = 1;
           }
+
           mat.needsUpdate = true;
         });
       }
 
-      // PLAYING
-      if (currentPhase === "playing") {
+      // ── PLAYING ──
+      if (cur === "playing") {
         tableConfig.colliders.forEach((c) => {
           if (Math.abs(ballYRef.current - c.y) < c.radius) {
             velocityRef.current = c.force ?? 0.05;
@@ -353,9 +347,12 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
               const mat = elementsRef.current[pick]
                 .material as THREE.MeshBasicMaterial;
 
-              // PNG on si disponible, sinon canvas allumé
               if (el.imgOn) {
-                mat.map = loader.load(el.imgOn);
+                mat.map = getTexture(el.imgOn);
+              } else if (el.imgOff) {
+                // PNG unique allumé → opacité pleine
+                mat.map = getTexture(el.imgOff);
+                mat.opacity = 1;
               } else {
                 mat.map = createElementTexture(
                   el,
@@ -395,7 +392,6 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
 
         ballYRef.current = THREE.MathUtils.clamp(ballYRef.current, minY, maxY);
         if (ballRef.current) ballRef.current.position.y = ballYRef.current;
-
         camera.position.y = THREE.MathUtils.lerp(
           camera.position.y,
           ballYRef.current,
@@ -408,6 +404,7 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
           tableConfig.scoring.multiplierMax,
         );
 
+        // Tous allumés → +1 balle + reset
         if (
           elementsStateRef.current.length > 0 &&
           elementsStateRef.current.every(Boolean)
@@ -417,9 +414,12 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
           elementsRef.current.forEach((mesh, i) => {
             const el = tableConfig.elements[i];
             const mat = mesh.material as THREE.MeshBasicMaterial;
-            mat.map = el.imgOff
-              ? loader.load(el.imgOff)
-              : createElementTexture(el, "#222");
+            if (el.imgOff) {
+              mat.map = getTexture(el.imgOff);
+              mat.opacity = el.alwaysOn ? 1 : 0.15;
+            } else {
+              mat.map = createElementTexture(el, "#222");
+            }
             mat.needsUpdate = true;
           });
         }
@@ -432,6 +432,7 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     return () => {
       cancelAnimationFrame(animId);
       renderer.dispose();
+      textureCacheRef.current.clear();
     };
   }, [tableKey]);
 
