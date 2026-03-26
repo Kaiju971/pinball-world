@@ -8,6 +8,9 @@ import * as S from "./Pinball.styled";
 
 // ─────────────────────────────────────────────
 // TEXTURE GENERATOR
+// Gère : letter / circle / arrow / custom / bumper / flipper / hole
+// Pour bumper/flipper/hole avec imgOff/imgOn → le swap est géré
+// séparément dans la boucle animate via THREE.TextureLoader
 // ─────────────────────────────────────────────
 const CANVAS_SIZE = 256;
 
@@ -43,12 +46,16 @@ const createElementTexture = (
         ctx.strokeText(element.value ?? "?", half, half);
       ctx.fillText(element.value ?? "?", half, half);
       break;
+
     case "circle":
+    // bumper sans PNG → fallback cercle coloré
+    case "bumper":
       ctx.beginPath();
       ctx.arc(half, half, 80, 0, Math.PI * 2);
       ctx.fill();
       if (border !== "transparent") ctx.stroke();
       break;
+
     case "arrow":
       ctx.beginPath();
       ctx.moveTo(40, 210);
@@ -58,7 +65,10 @@ const createElementTexture = (
       ctx.fill();
       if (border !== "transparent") ctx.stroke();
       break;
+
     case "custom":
+    // hole sans PNG → fallback cercle avec double contour
+    case "hole":
       ctx.beginPath();
       ctx.arc(half, half, 70, 0, Math.PI * 2);
       ctx.fill();
@@ -67,6 +77,18 @@ const createElementTexture = (
         ctx.stroke();
       }
       break;
+
+    // flipper sans PNG → fallback rectangle arrondi
+    case "flipper": {
+      ctx.beginPath();
+      ctx.roundRect(20, half - 30, CANVAS_SIZE - 40, 60, 30);
+      ctx.fill();
+      if (border !== "transparent") {
+        ctx.lineWidth = 8;
+        ctx.stroke();
+      }
+      break;
+    }
   }
 
   const tex = new THREE.CanvasTexture(canvas);
@@ -77,7 +99,7 @@ const createElementTexture = (
 // ─────────────────────────────────────────────
 // TYPES
 // ─────────────────────────────────────────────
-type GamePhase = "preview" | "ready" | "playing" | "gameover";
+type GamePhase = "preview" | "focusing" | "ready" | "playing" | "gameover";
 
 type Props = {
   muted: boolean;
@@ -89,7 +111,7 @@ type Props = {
 // ─────────────────────────────────────────────
 const scrollingTexts: Record<string, string> = {
   AiRobot:
-    "✦ WELCOME TO AI ROBOT ✦  Hit bumpers to light up ROBOT letters  ✦  Complete ROBOT to earn an extra ball  ✦  Press ENTER when ready  ✦  Press ARROW DOWN to launch  ✦",
+    "✦ WELCOME TO AI ROBOT ✦  Hit bumpers to light up ROBOT letters  ✦  Complete FUEL and TECH to trigger bonus  ✦  Press ENTER when ready  ✦  Press ARROW DOWN to launch  ✦",
   Mythology:
     "✦ WELCOME TO MYTHOLOGY ✦  Hit bumpers to light up MYTHOLOGY letters  ✦  Complete the word for a bonus ball  ✦  Press ENTER when ready  ✦  Press ARROW DOWN to launch  ✦",
   Entity:
@@ -106,48 +128,38 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
   const tableKey = (name || "AiRobot") as PinballKey;
   const tableConfig = pinballData[tableKey];
 
-  /** REFS — DOM */
   const mountRef = useRef<HTMLDivElement>(null);
 
-  /** REFS — AUDIO */
   const previewMusic = useRef<HTMLAudioElement | null>(null);
   const launchMusic = useRef<HTMLAudioElement | null>(null);
   const gameMusic = useRef<HTMLAudioElement | null>(null);
   const endMusic = useRef<HTMLAudioElement | null>(null);
 
-  /** REFS — 3D */
   const ballRef = useRef<THREE.Mesh | null>(null);
   const elementsRef = useRef<THREE.Mesh[]>([]);
   const elementsStateRef = useRef<boolean[]>([]);
 
-  /** REFS — GAMEPLAY */
   const phaseRef = useRef<GamePhase>("preview");
-  // ✅ caméra figée dès que le joueur appuie sur Entrée
-  const cameraFrozenRef = useRef(false);
   const multiplierRef = useRef(1);
   const velocityRef = useRef(0);
   const ballYRef = useRef(1.2);
 
-  /** REFS — PREVIEW CAMERA */
   const previewDirRef = useRef<1 | -1>(1);
   const previewYRef = useRef(0);
 
-  /** STATE */
   const [loading, setLoading] = useState(true);
   const [score, setScore] = useState(0);
   const [ballsLeft, setBallsLeft] = useState(3);
   const [phase, setPhase] = useState<GamePhase>("preview");
 
-  /** CONSTANTS */
   const minY = 0.6;
   const maxY = 19;
   const previewMinY = 0;
   const previewMaxY = 16.15;
   const previewSpeed = 0.02;
+  const FOCUS_THRESHOLD = 0.05;
 
-  // ─────────────────────────────────────────────
-  // HELPERS AUDIO
-  // ─────────────────────────────────────────────
+  // ── AUDIO ──
   const stopAll = () => {
     [previewMusic, launchMusic, gameMusic, endMusic].forEach((r) => {
       if (r.current) {
@@ -156,16 +168,12 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
       }
     });
   };
-
   const syncMute = (m: boolean) => {
     [previewMusic, launchMusic, gameMusic, endMusic].forEach((r) => {
       if (r.current) r.current.muted = m;
     });
   };
 
-  // ─────────────────────────────────────────────
-  // AUDIO INIT
-  // ─────────────────────────────────────────────
   useEffect(() => {
     previewMusic.current = new Audio(tableConfig.musicPreview);
     launchMusic.current = new Audio(tableConfig.launch);
@@ -178,29 +186,23 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
 
     syncMute(muted);
     previewMusic.current.play().catch(() => {});
-
     return () => stopAll();
   }, [tableKey]);
 
   useEffect(() => syncMute(muted), [muted]);
 
-  // ─────────────────────────────────────────────
-  // THREE SCENE
-  // ─────────────────────────────────────────────
+  // ── THREE SCENE ──
   useEffect(() => {
     if (!mountRef.current) return;
-
     setLoading(true);
 
     const manager = new THREE.LoadingManager();
     manager.onLoad = () => setTimeout(() => setLoading(false), 1200);
-
     const loader = new THREE.TextureLoader(manager);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     const width = mountRef.current.clientWidth;
     const height = mountRef.current.clientHeight;
-
     renderer.setSize(width, height);
     renderer.setPixelRatio(window.devicePixelRatio);
     mountRef.current.innerHTML = "";
@@ -209,7 +211,6 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     const scene = new THREE.Scene();
     const aspect = width / height;
     const vs = 4.7;
-
     const camera = new THREE.OrthographicCamera(
       -vs * aspect,
       vs * aspect,
@@ -220,7 +221,7 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     );
     camera.position.set(0, previewYRef.current, 10);
 
-    /** TABLE */
+    // Table
     const table = new THREE.Mesh(
       new THREE.PlaneGeometry(10, 20),
       new THREE.MeshBasicMaterial({
@@ -231,7 +232,7 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     table.position.set(0, 10, 0);
     scene.add(table);
 
-    /** BALL */
+    // Balle
     const ball = new THREE.Mesh(
       new THREE.CircleGeometry(0.25, 32),
       new THREE.MeshBasicMaterial({
@@ -243,18 +244,24 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     scene.add(ball);
     ballRef.current = ball;
 
-    /** ELEMENTS */
+    // Éléments
     elementsRef.current = [];
     elementsStateRef.current = tableConfig.elements.map(() => false);
 
     tableConfig.elements.forEach((el) => {
       const s = el.size ?? 0.9;
+
+      // Si l'élément a un PNG off/on → on charge imgOff par défaut
+      let initialTexture: THREE.Texture;
+      if (el.imgOff) {
+        initialTexture = loader.load(el.imgOff);
+      } else {
+        initialTexture = createElementTexture(el, "#222");
+      }
+
       const mesh = new THREE.Mesh(
         new THREE.PlaneGeometry(s, s),
-        new THREE.MeshBasicMaterial({
-          map: createElementTexture(el, "#222"),
-          transparent: true,
-        }),
+        new THREE.MeshBasicMaterial({ map: initialTexture, transparent: true }),
       );
       mesh.position.set(el.x, el.y, 1.5);
       scene.add(mesh);
@@ -268,20 +275,52 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
       animId = requestAnimationFrame(animate);
       const currentPhase = phaseRef.current;
 
-      // ── PREVIEW : caméra monte-descend (stop si frozen) ──
+      // PREVIEW : caméra monte/descend
       if (currentPhase === "preview") {
-        if (!cameraFrozenRef.current) {
-          previewYRef.current += previewSpeed * previewDirRef.current;
-          if (previewYRef.current >= previewMaxY) previewDirRef.current = -1;
-          if (previewYRef.current <= previewMinY) previewDirRef.current = 1;
-          camera.position.y = previewYRef.current;
+        previewYRef.current += previewSpeed * previewDirRef.current;
+        if (previewYRef.current >= previewMaxY) previewDirRef.current = -1;
+        if (previewYRef.current <= previewMinY) previewDirRef.current = 1;
+        camera.position.y = previewYRef.current;
+      }
+
+      // FOCUSING : caméra lerp vers la balle
+      if (currentPhase === "focusing") {
+        const target = ballYRef.current;
+        previewYRef.current = THREE.MathUtils.lerp(
+          previewYRef.current,
+          target,
+          0.06,
+        );
+        camera.position.y = previewYRef.current;
+        if (Math.abs(previewYRef.current - target) < FOCUS_THRESHOLD) {
+          previewYRef.current = target;
+          camera.position.y = target;
+          phaseRef.current = "ready";
+          setPhase("ready");
         }
+      }
 
-        // clignotement des éléments
+      // Clignotement éléments (preview + focusing + ready)
+      if (
+        currentPhase === "preview" ||
+        currentPhase === "focusing" ||
+        currentPhase === "ready"
+      ) {
         const time = Date.now() * 0.005;
         elementsRef.current.forEach((mesh, i) => {
           const el = tableConfig.elements[i];
           const mat = mesh.material as THREE.MeshBasicMaterial;
+
+          // PNG off/on : on swap la texture selon l'état
+          if (el.imgOff && el.imgOn) {
+            const on =
+              el.alwaysOn || (el.blink && Math.sin(time + i * 0.8) > 0);
+            mat.map = loader.load(on ? el.imgOn : el.imgOff);
+            mat.needsUpdate = true;
+            return;
+          }
+
+          // Canvas : comportement habituel
           if (el.alwaysOn) {
             mat.map = createElementTexture(el, tableConfig.themeColor, true);
           } else if (!elementsStateRef.current[i]) {
@@ -295,27 +334,7 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
         });
       }
 
-      // ── READY : caméra figée, éléments clignotent ──
-      if (currentPhase === "ready") {
-        // caméra ne bouge plus — position déjà figée dans previewYRef
-        const time = Date.now() * 0.005;
-        elementsRef.current.forEach((mesh, i) => {
-          const el = tableConfig.elements[i];
-          const mat = mesh.material as THREE.MeshBasicMaterial;
-          if (el.alwaysOn) {
-            mat.map = createElementTexture(el, tableConfig.themeColor, true);
-          } else if (!elementsStateRef.current[i]) {
-            const on = Math.sin(time + i * 0.8) > 0;
-            mat.map = createElementTexture(
-              el,
-              on ? tableConfig.themeColor : "#111",
-            );
-          }
-          mat.needsUpdate = true;
-        });
-      }
-
-      // ── PLAYING ──
+      // PLAYING
       if (currentPhase === "playing") {
         tableConfig.colliders.forEach((c) => {
           if (Math.abs(ballYRef.current - c.y) < c.radius) {
@@ -330,13 +349,20 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
               const pick =
                 inactive[Math.floor(Math.random() * inactive.length)];
               elementsStateRef.current[pick] = true;
+              const el = tableConfig.elements[pick];
               const mat = elementsRef.current[pick]
                 .material as THREE.MeshBasicMaterial;
-              mat.map = createElementTexture(
-                tableConfig.elements[pick],
-                tableConfig.themeColor,
-                true,
-              );
+
+              // PNG on si disponible, sinon canvas allumé
+              if (el.imgOn) {
+                mat.map = loader.load(el.imgOn);
+              } else {
+                mat.map = createElementTexture(
+                  el,
+                  tableConfig.themeColor,
+                  true,
+                );
+              }
               mat.needsUpdate = true;
             }
           }
@@ -360,9 +386,8 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
               phaseRef.current = "gameover";
               setPhase("gameover");
             } else {
-              // balle perdue → ready, la caméra reste figée à la position actuelle
-              phaseRef.current = "ready";
-              setPhase("ready");
+              phaseRef.current = "focusing";
+              setPhase("focusing");
             }
             return next;
           });
@@ -390,8 +415,11 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
           setBallsLeft((b) => b + 1);
           elementsStateRef.current = elementsStateRef.current.map(() => false);
           elementsRef.current.forEach((mesh, i) => {
+            const el = tableConfig.elements[i];
             const mat = mesh.material as THREE.MeshBasicMaterial;
-            mat.map = createElementTexture(tableConfig.elements[i], "#222");
+            mat.map = el.imgOff
+              ? loader.load(el.imgOff)
+              : createElementTexture(el, "#222");
             mat.needsUpdate = true;
           });
         }
@@ -407,18 +435,12 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     };
   }, [tableKey]);
 
-  // ─────────────────────────────────────────────
-  // CONTROLS
-  // ─────────────────────────────────────────────
+  // ── CONTROLS ──
   useEffect(() => {
     const onKeyUp = (e: KeyboardEvent) => {
-      // ── ENTRÉE : preview → ready ──
-      // ✅ la caméra se fige immédiatement
       if (e.code === "Enter" && phaseRef.current === "preview") {
-        cameraFrozenRef.current = true; // ← fige la caméra
-        phaseRef.current = "ready";
-        setPhase("ready");
-
+        phaseRef.current = "focusing";
+        setPhase("focusing");
         previewMusic.current?.pause();
         if (launchMusic.current) {
           launchMusic.current.loop = true;
@@ -427,11 +449,9 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
         }
       }
 
-      // ── FLÈCHE BAS : ready → playing ──
       if (e.code === "ArrowDown" && phaseRef.current === "ready") {
         phaseRef.current = "playing";
-        setPhase("playing"); // ✅ déclenche le swap HUD immédiatement
-
+        setPhase("playing");
         if (launchMusic.current) {
           launchMusic.current.loop = false;
           launchMusic.current.pause();
@@ -440,7 +460,6 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
           gameMusic.current.currentTime = 0;
           gameMusic.current.play().catch(() => {});
         }
-
         velocityRef.current = 0.12;
       }
     };
@@ -449,14 +468,10 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     return () => window.removeEventListener("keyup", onKeyUp);
   }, []);
 
-  // ─────────────────────────────────────────────
-  // JSX
-  // ─────────────────────────────────────────────
-  // ✅ le scroll ne s'affiche QUE en preview (plus en ready)
-  // dès playing → score immédiatement
-  const showScroll = phase === "preview";
+  // ── JSX ──
+  const showScroll = phase === "preview" || phase === "focusing";
   const scrollText = scrollingTexts[tableKey] ?? "";
-  const scrollDuration = Math.max(16, Math.round(scrollText.length * 0.15));
+  const scrollDuration = Math.max(16, Math.round(scrollText.length * 0.09));
 
   return (
     <S.MainContainer>
@@ -485,7 +500,6 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
           )}
           <div ref={mountRef} style={{ width: "100%", height: "200%" }} />
         </S.CanvasWrapper>
-
         <S.SoundButton onClick={() => setMuted((m) => !m)}>
           {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
         </S.SoundButton>
