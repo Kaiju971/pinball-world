@@ -243,16 +243,23 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     elementsStateRef.current = tableConfig.elements.map(() => false);
 
     tableConfig.elements.forEach((el) => {
-      const s = el.size ?? 0.9;
+      const s = el.size ?? 0.9; // carré par défaut
+      const w = el.width ?? s; // largeur → width si défini, sinon s
+      const h = el.height ?? s; // hauteur → height si défini, sinon s
       const initTex = el.imgOff
         ? getTexture(el.imgOff)
         : createElementTexture(el, "#222");
 
       const mesh = new THREE.Mesh(
-        new THREE.PlaneGeometry(s, s),
+        new THREE.PlaneGeometry(w, h), // ← width, height
         new THREE.MeshBasicMaterial({ map: initTex, transparent: true }),
       );
       mesh.position.set(el.x, el.y, 1.5);
+      // ✅ Rotation en degrés → radians, sens horaire
+      if (el.rotation !== undefined) {
+        mesh.rotation.z = THREE.MathUtils.degToRad(-el.rotation);
+      }
+
       scene.add(mesh);
       elementsRef.current.push(mesh);
     });
