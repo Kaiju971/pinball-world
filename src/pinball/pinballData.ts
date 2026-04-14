@@ -3,6 +3,9 @@ import MythologyImg from "../assets/images/MYTHOLOGY PINBALL2.png";
 import EntityImg from "../assets/images/ENTITY PINBALL.png";
 import GoldWheelImg from "../assets/images/GOLDWHEEL PINBALL.png";
 
+// Ressort
+import SpringImg from "../assets/images/ressor.png";
+
 // Lettres ROBOT
 import R_OnImg from "../assets/images/elements/AiRobot/R-On.png";
 import R_OffImg from "../assets/images/elements/AiRobot/R-Off.png";
@@ -28,7 +31,7 @@ import L_Off from "../assets/images/elements/Mythology/L-Off.png";
 import G_On from "../assets/images/elements/Mythology/G-On.png";
 import G_Off from "../assets/images/elements/Mythology/G-Off.png";
 
-// Flèches
+// Flèches AI ROBOT
 import ArrowBlueLeftOff from "../assets/images/elements/AiRobot/ArrowBlueLeftOff.png";
 import ArrowBlueLeftOn from "../assets/images/elements/AiRobot/ArrowBlueLeftOn.png";
 import ArrowBlueRightOff from "../assets/images/elements/AiRobot/ArrowBlueRightOff.png";
@@ -38,6 +41,15 @@ import ArrowGreyOn from "../assets/images/elements/AiRobot/ArrowGreyOn.png";
 import ArrowRedOff from "../assets/images/elements/AiRobot/ArrowRedOff.png";
 import ArrowRedOn from "../assets/images/elements/AiRobot/ArrowRedOn.png";
 
+// Flèches longues rouge MYTHOLOGY
+import ArrowRedLongLeftOff from "../assets/images/elements/Mythology/ArrowRedLongLeftOff.png";
+import ArrowRedLongLeftOn from "../assets/images/elements/Mythology/ArrowRedLongLeftOn.png";
+// Flèches petites rouge MYTHOLOGY
+import ArrowRedLittleLeftOff from "../assets/images/elements/Mythology/ArrowRedLittleLeftOff.png";
+import ArrowRedLittleLeftOn from "../assets/images/elements/Mythology/ArrowRedLittleLeftOn.png";
+//flèches Vertes MYTHOLOGY
+import ArrowGreenLeftOff from "../assets/images/elements/Mythology/ArrowGreenLeftOff.png";
+import ArrowGreenLeftOn from "../assets/images/elements/Mythology/ArrowGreenLeftOn.png";
 // Ellipses FUEL
 import F_FUELOn from "../assets/images/elements/AiRobot/F-FUELOn.png";
 import F_FUELOff from "../assets/images/elements/AiRobot/F-FUELOff.png";
@@ -48,7 +60,7 @@ import E_FUELOff from "../assets/images/elements/AiRobot/E-FUELOff.png";
 import L_FUELOn from "../assets/images/elements/AiRobot/L-FUELOn.png";
 import L_FUELOff from "../assets/images/elements/AiRobot/L-FUELOff.png";
 // Ellipses VERTES MYTHOLOGY
-import ARESOff from "../assets/images/elements/Mythology/ECLIPSE ARES_Off.png"
+import ARESOff from "../assets/images/elements/Mythology/ECLIPSE ARES_Off.png";
 import ARESOn from "../assets/images/elements/Mythology/ECLIPSE ARES_On.png";
 import ARTEMISOff from "../assets/images/elements/Mythology/ECLIPSE ARTEMIS_Off.png";
 import ARTEMISOn from "../assets/images/elements/Mythology/ECLIPSE ARTEMIS_On.png";
@@ -59,6 +71,19 @@ import HEPHAISTOSOn from "../assets/images/elements/Mythology/ECLIPSE HEPHAISTOS
 import PERSEPHONEOff from "../assets/images/elements/Mythology/ECLIPSE PERSEPHONE_Off.png";
 import PERSEPHONEOn from "../assets/images/elements/Mythology/ECLIPSE PERSEPHONE_On.png";
 // Ellipses BLEUES MYTHOLOGY
+// Ellipses BLANC CHIFFRE MYTHOLOGY
+import ELLIPSE1BLANCOff from "../assets/images/elements/Mythology/ECLIPSE1BLANCOff.png";
+import ELLIPSE1BLANCOn from "../assets/images/elements/Mythology/ECLIPSE1BLANCOn.png";
+import ELLIPSE2BLANCOff from "../assets/images/elements/Mythology/ECLIPSE2BLANCOff.png";
+import ELLIPSE2BLANCOn from "../assets/images/elements/Mythology/ECLIPSE2BLANCOn.png";
+import ELLIPSE3BLANCOff from "../assets/images/elements/Mythology/ECLIPSE3BLANCOff.png";
+import ELLIPSE3BLANCOn from "../assets/images/elements/Mythology/ECLIPSE3BLANCOn.png";
+import ELLIPSE4BLANCOff from "../assets/images/elements/Mythology/ECLIPSE4BLANCOff.png";
+import ELLIPSE4BLANCOn from "../assets/images/elements/Mythology/ECLIPSE4BLANCOn.png";
+import ELLIPSE5BLANCOff from "../assets/images/elements/Mythology/ECLIPSE5BLANCOff.png";
+import ELLIPSE5BLANCOn from "../assets/images/elements/Mythology/ECLIPSE5BLANCOn.png";
+import ELLIPSE6BLANCOff from "../assets/images/elements/Mythology/ECLIPSE6BLANCOff.png";
+import ELLIPSE6BLANCOn from "../assets/images/elements/Mythology/ECLIPSE6BLANCOn.png";
 
 // Ellipses TECH
 import C_TECHOn from "../assets/images/elements/AiRobot/C-TECHOn.png";
@@ -96,6 +121,9 @@ import E_ITEMOff from "../assets/images/elements/AiRobot/E-ITEMOff.png";
 import M_ITEMOn from "../assets/images/elements/AiRobot/M-ITEMOn.png";
 import M_ITEMOff from "../assets/images/elements/AiRobot/M-ITEMOff.png";
 
+// Flash MYTHOLOGY
+import FlashOff from "../assets/images/elements/Mythology/FlashOff.png";
+import FlashOn from "../assets/images/elements/Mythology/FlashOn.png";
 // Ellipses DIVERS
 // Ellipses BLEU
 import ELLIPSEBLEUOn from "../assets/images/elements/AiRobot/EllipseBleuOn.png";
@@ -117,7 +145,7 @@ import BONUSROUGEOn from "../assets/images/elements/AiRobot/B-BONUSRougeOn.png";
 import BONUSROUGEOff from "../assets/images/elements/AiRobot/B-BONUSRougeOff.png";
 // Ellipses Bonus chiffres
 // Ellipses Bonus 50
-import BONUS50On from "../assets/images/elements/AiRobot/B-BONUS50-On.png"
+import BONUS50On from "../assets/images/elements/AiRobot/B-BONUS50-On.png";
 import BONUS50Off from "../assets/images/elements/AiRobot/B-BONUS50-Off.png";
 // Ellipses Bonus 100
 import BONUS100On from "../assets/images/elements/AiRobot/B-BONUS100-On.png";
@@ -137,7 +165,6 @@ import BONUS1000Off from "../assets/images/elements/AiRobot/B-BONUS1000-Off.png"
 // Ellipses Bonus 2500
 import BONUS2500On from "../assets/images/elements/AiRobot/B-BONUS2500-On.png";
 import BONUS2500Off from "../assets/images/elements/AiRobot/B-BONUS2500-Off.png";
-
 
 // Multiplicateurs
 import X2ImgOn from "../assets/images/elements/AiRobot/x2On.png";
@@ -223,9 +250,6 @@ import bumperFx from "../assets/audio/bumper.wav";
 import flipperFx from "../assets/audio/flipper.wav";
 import holeFx from "../assets/audio/hole.wav";
 
-// ── PNG éléments AiRobot ──
-const BASE = "../assets/images/elements/AiRobot/";
-
 export type PinballKey = "AiRobot" | "Mythology" | "Entity" | "GoldWheel";
 
 export interface Collider {
@@ -244,7 +268,8 @@ export type LightElementType =
   | "custom"
   | "bumper"
   | "flipper"
-  | "hole";
+  | "hole"
+  | "spring";
 
 export interface LightElement {
   id: string;
@@ -286,6 +311,13 @@ export interface PinballConfig {
   colliders: Collider[];
   elements: LightElement[];
   scoring: { multiplierMax: number };
+  // ✅ Position de départ de la balle — unique par table
+  ballStartX: number;
+  ballStartY: number;
+
+  // ✅ Position Y de la caméra quand le joueur est prêt à tirer
+  // ajuste jusqu'à voir la balle + le ressort confortablement
+  cameraFocusY: number;
   fx?: {
     launch?: string;
     bumper?: string;
@@ -312,6 +344,10 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     launch: LaunchAiRobot,
 
     physics: { gravity: -0.004, bounce: 0.8 },
+    // ✅ Balle + caméra GoldWheel
+    ballStartX: 4.3,
+    ballStartY: 2.8,
+    cameraFocusY: 2.0,
 
     colliders: [
       { type: "bumper", x: -1.5, y: 11, radius: 0.7, force: 0.12, score: 50 },
@@ -385,6 +421,17 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     ],
 
     elements: [
+      // ── RESSORT PNG — id obligatoire "spring" ──
+      {
+        id: "spring",
+        type: "spring",
+        x: 4.3,
+        y: 1.5, // juste sous la position de départ de la balle
+        alwaysOn: true,
+        width: 0.6,
+        height: 1.2,
+        imgOff: SpringImg,
+      },
       // ── Lettres ROBOT (PNG unique — clignotement par opacité) ──
       {
         id: "robot_r",
@@ -1143,11 +1190,25 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     musicEnd: EndMythology,
     launch: LaunchMythology,
     physics: { gravity: -0.004, bounce: 0.8 },
+    // ✅ Balle + caméra GoldWheel
+    ballStartX: 4.3,
+    ballStartY: 2.8,
+    cameraFocusY: 2.0,
     colliders: [
       { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
       { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
     ],
     elements: [
+      {
+        id: "spring",
+        type: "spring",
+        x: 4.7,
+        y: 0.6,
+        alwaysOn: true,
+        width: 0.35,
+        height: 0.85,
+        imgOff: SpringImg,
+      },
       {
         id: "mythology_m",
         type: "letter",
@@ -1274,12 +1335,157 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         imgOn: Y_On,
       },
       {
-        id: "arrow1",
+        id: "flash_1",
+        type: "custom",
+        x: 4.17,
+        y: 13.6,
+        blink: true,
+        // size: 0.6,
+        width: 0.5, // ← largeur
+        height: 0.9, // ← hauteur
+        imgOff: FlashOff,
+        imgOn: FlashOn,
+      },
+      {
+        id: "flash_2",
+        type: "custom",
+        x: 4.17,
+        y: 12.7,
+        blink: true,
+        // size: 0.6,
+        width: 0.5, // ← largeur
+        height: 0.9, // ← hauteur
+        imgOff: FlashOff,
+        imgOn: FlashOn,
+      },
+      {
+        id: "flash_3",
+        type: "custom",
+        x: 4.17,
+        y: 11.9,
+        blink: true,
+        // size: 0.6,
+        width: 0.5, // ← largeur
+        height: 0.9, // ← hauteur
+        imgOff: FlashOff,
+        imgOn: FlashOn,
+      },
+      {
+        id: "arrow_Green_1",
+        type: "arrow",
+        x: -1.93,
+        y: 10.75,
+        blink: true,
+        // size: 0.6,
+        width: 0.3, // ← largeur
+        height: 0.9, // ← hauteur
+        imgOff: ArrowGreenLeftOff,
+        imgOn: ArrowGreenLeftOn,
+        rotation: 0, // ← tourne de 90° dans le sens horaire
+      },
+      {
+        id: "arrow_Green_2",
+        type: "arrow",
+        x: -1.76,
+        y: 9.8,
+        blink: true,
+        // size: 0.6,
+        width: 0.3, // ← largeur
+        height: 0.9, // ← hauteur
+        imgOff: ArrowGreenLeftOff,
+        imgOn: ArrowGreenLeftOn,
+        rotation: 0, // ← tourne de 90° dans le sens horaire
+      },
+      {
+        id: "arrow_Green_3",
+        type: "arrow",
+        x: -1.56,
+        y: 8.8,
+        blink: true,
+        // size: 0.6,
+        width: 0.3, // ← largeur
+        height: 0.9, // ← hauteur
+        imgOff: ArrowGreenLeftOff,
+        imgOn: ArrowGreenLeftOn,
+        rotation: 0, // ← tourne de 90° dans le sens horaire
+      },
+      {
+        id: "arrow_Red_1",
+        type: "arrow",
+        x: -4.35,
+        y: 11.6,
+        blink: true,
+        // size: 0.6,
+        width: 0.3, // ← largeur
+        height: 0.8, // ← hauteur
+        imgOff: ArrowRedLongLeftOff,
+        imgOn: ArrowRedLongLeftOn,
+        rotation: 0, // ← tourne de 90° dans le sens horaire
+      },
+      {
+        id: "arrow_Red_2",
+        type: "arrow",
+        x: -4.2,
+        y: 10.6,
+        blink: true,
+        // size: 0.6,
+        width: 0.3, // ← largeur
+        height: 0.8, // ← hauteur
+        imgOff: ArrowRedLongLeftOff,
+        imgOn: ArrowRedLongLeftOn,
+        rotation: 0, // ← tourne de 90° dans le sens horaire
+      },
+      {
+        id: "arrow_Red_3",
         type: "arrow",
         x: -4,
-        y: 10,
-        alwaysOn: true,
-        size: 0.9,
+        y: 9.7,
+        blink: true,
+        // size: 0.6,
+        width: 0.3, // ← largeur
+        height: 0.8, // ← hauteur
+        imgOff: ArrowRedLongLeftOff,
+        imgOn: ArrowRedLongLeftOn,
+        rotation: 0, // ← tourne de 90° dans le sens horaire
+      },
+      {
+        id: "arrow_Red_Little_1",
+        type: "arrow",
+        x: -3.45,
+        y: 8.15,
+        blink: true,
+        // size: 0.6,
+        width: 0.3, // ← largeur
+        height: 0.5, // ← hauteur
+        imgOff: ArrowRedLittleLeftOff,
+        imgOn: ArrowRedLittleLeftOn,
+        rotation: 0, // ← tourne de 90° dans le sens horaire
+      },
+      {
+        id: "arrow_Red_Little_2",
+        type: "arrow",
+        x: -3.33,
+        y: 7.65,
+        blink: true,
+        // size: 0.6,
+        width: 0.3, // ← largeur
+        height: 0.5, // ← hauteur
+        imgOff: ArrowRedLittleLeftOff,
+        imgOn: ArrowRedLittleLeftOn,
+        rotation: 0, // ← tourne de 90° dans le sens horaire
+      },
+      {
+        id: "arrow_Red_Little_3",
+        type: "arrow",
+        x: -3.17,
+        y: 7.16,
+        blink: true,
+        // size: 0.6,
+        width: 0.3, // ← largeur
+        height: 0.5, // ← hauteur
+        imgOff: ArrowRedLittleLeftOff,
+        imgOn: ArrowRedLittleLeftOn,
+        rotation: 0, // ← tourne de 90° dans le sens horaire
       },
       {
         id: "hyppo_1",
@@ -1379,6 +1585,127 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         imgOff: X10MythOff,
         imgOn: X10mythOn,
       },
+      // ── Ellipse Blanc à chiffre (Off/On) ──
+      {
+        id: "ellipse_blanc_1_Left",
+        type: "circle",
+        x: -0.9,
+        y: 9.45,
+        blink: true,
+        size: 0.45,
+        imgOff: ELLIPSE1BLANCOff,
+        imgOn: ELLIPSE1BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_1_Right",
+        type: "circle",
+        x: 3.2,
+        y: 8.15,
+        blink: true,
+        size: 0.4,
+        imgOff: ELLIPSE1BLANCOff,
+        imgOn: ELLIPSE1BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_2_Left",
+        type: "circle",
+        x: -0.9,
+        y: 8.8,
+        blink: true,
+        size: 0.45,
+        imgOff: ELLIPSE2BLANCOff,
+        imgOn: ELLIPSE2BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_2_Right",
+        type: "circle",
+        x: 3,
+        y: 7.5,
+        blink: true,
+        size: 0.4,
+        imgOff: ELLIPSE2BLANCOff,
+        imgOn: ELLIPSE2BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_3_Left",
+        type: "circle",
+        x: -0.85,
+        y: 8.2,
+        blink: true,
+        size: 0.45,
+        imgOff: ELLIPSE3BLANCOff,
+        imgOn: ELLIPSE3BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_3_Right",
+        type: "circle",
+        x: 2.85,
+        y: 6.9,
+        blink: true,
+        size: 0.4,
+        imgOff: ELLIPSE3BLANCOff,
+        imgOn: ELLIPSE3BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_4_Left",
+        type: "circle",
+        x: -0.8,
+        y: 7.53,
+        blink: true,
+        size: 0.45,
+        imgOff: ELLIPSE4BLANCOff,
+        imgOn: ELLIPSE4BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_4_Right",
+        type: "circle",
+        x: 2.73,
+        y: 6.23,
+        blink: true,
+        size: 0.4,
+        imgOff: ELLIPSE4BLANCOff,
+        imgOn: ELLIPSE4BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_5_Left",
+        type: "circle",
+        x: -0.77,
+        y: 6.9,
+        blink: true,
+        size: 0.45,
+        imgOff: ELLIPSE5BLANCOff,
+        imgOn: ELLIPSE5BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_5_Right",
+        type: "circle",
+        x: 2.6,
+        y: 5.6,
+        blink: true,
+        size: 0.4,
+        imgOff: ELLIPSE5BLANCOff,
+        imgOn: ELLIPSE5BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_6_Left",
+        type: "circle",
+        x: -0.75,
+        y: 6.25,
+        blink: true,
+        size: 0.45,
+        imgOff: ELLIPSE6BLANCOff,
+        imgOn: ELLIPSE6BLANCOn,
+      },
+      {
+        id: "ellipse_blanc_6_Right",
+        type: "circle",
+        x: 2.43,
+        y: 4.95,
+        blink: true,
+        size: 0.4,
+        imgOff: ELLIPSE6BLANCOff,
+        imgOn: ELLIPSE6BLANCOn,
+      },
       // ── Ellipse Vertes (Off/On) ──
       {
         id: "ellipse_verte_1",
@@ -1454,11 +1781,25 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     musicEnd: EndEntity,
     launch: LaunchEntity,
     physics: { gravity: -0.004, bounce: 0.8 },
+    // ✅ Balle + caméra GoldWheel
+    ballStartX: 4.3,
+    ballStartY: 2.8,
+    cameraFocusY: 2.0,
     colliders: [
       { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
       { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
     ],
     elements: [
+      {
+        id: "spring",
+        type: "spring",
+        x: 4.3,
+        y: 1.5,
+        alwaysOn: true,
+        width: 0.6,
+        height: 1.2,
+        imgOff: SpringImg,
+      },
       {
         id: "e",
         type: "letter",
@@ -1586,11 +1927,25 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     musicEnd: EndGoldWheel,
     launch: LaunchGoldWheel,
     physics: { gravity: -0.004, bounce: 0.8 },
+    // ✅ Balle + caméra GoldWheel
+    ballStartX: 4.3,
+    ballStartY: 2.8,
+    cameraFocusY: 2.0,
     colliders: [
       { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
       { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
     ],
     elements: [
+      {
+        id: "spring",
+        type: "spring",
+        x: 4.3,
+        y: 1.5,
+        alwaysOn: true,
+        width: 0.6,
+        height: 1.2,
+        imgOff: SpringImg,
+      },
       {
         id: "g",
         type: "letter",
