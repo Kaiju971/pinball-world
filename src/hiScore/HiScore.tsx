@@ -178,7 +178,7 @@ const Hiscore: React.FC<HiscoreProps> = ({ muted, setMuted }) => {
           </div>
         </div>
       )}
-      <S.Pinball>PINBALL WORLD!</S.Pinball>
+      <S.Pinball>PINBALL'S WORLD!</S.Pinball>
     </S.MainContainer>
   );
 };
