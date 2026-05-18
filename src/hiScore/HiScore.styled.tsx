@@ -9,7 +9,7 @@ export const MainContainer = styled("div")({
   color: "#fff",
   width: "100vw",
   height: "100vh",
-  padding: "40px",
+  padding: "4px",
   boxSizing: "border-box",
   display: "flex",
   flexDirection: "column",
