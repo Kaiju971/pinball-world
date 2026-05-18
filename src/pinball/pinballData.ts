@@ -1,5 +1,5 @@
 import AiRobotImg from "../assets/images/AI PINBALL PINBALL2.png";
-import MythologyImg from "../assets/images/MYTHOLOGY PINBALL2.png";
+import MythologyImg from "../assets/images/MYTHOLOGY PINBALL.png";
 import EntityImg from "../assets/images/ENTITY PINBALL.png";
 import GoldWheelImg from "../assets/images/GOLDWHEEL PINBALL.png";
 
