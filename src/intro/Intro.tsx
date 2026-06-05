@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"; // 👈 ajoute useState
 import { useNavigate } from "react-router-dom";
-import introVideo from "../assets/videos/intro-pinball-world-nosound-small.mp4";
+import introVideo from "../assets/videos/INTRO PINBALL WORLD.mp4";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import * as S from "./Intro.styled";
