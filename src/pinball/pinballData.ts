@@ -121,6 +121,14 @@ import E_ITEMOff from "../assets/images/elements/AiRobot/E-ITEMOff.png";
 import M_ITEMOn from "../assets/images/elements/AiRobot/M-ITEMOn.png";
 import M_ITEMOff from "../assets/images/elements/AiRobot/M-ITEMOff.png";
 
+// Money MYTHOLOGY
+import MoneyOff from "../assets/images/elements/Mythology/Money_Off.png";
+import MoneyOn from "../assets/images/elements/Mythology/Money_On.png";
+
+// Rails MYTHOLOGY
+import RailsLeft from "../assets/images/elements/Mythology/RailLeft.png";
+import RailsRight from "../assets/images/elements/Mythology/RailRight.png";
+
 // Flash MYTHOLOGY
 import FlashOff from "../assets/images/elements/Mythology/FlashOff.png";
 import FlashOn from "../assets/images/elements/Mythology/FlashOn.png";
@@ -1191,9 +1199,9 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
     launch: LaunchMythology,
     physics: { gravity: -0.004, bounce: 0.8 },
     // ✅ Balle + caméra GoldWheel
-    ballStartX: 4.3,
-    ballStartY: 2.8,
-    cameraFocusY: 2.0,
+    ballStartX: 4.7,
+    ballStartY: 1.55,
+    cameraFocusY: 0.3,
     colliders: [
       { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
       { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
@@ -1756,6 +1764,59 @@ export const pinballData: Record<PinballKey, PinballConfig> = {
         size: 0.6,
         imgOff: PERSEPHONEOff,
         imgOn: PERSEPHONEOn,
+      },
+      // ── Ellipse Blanc à chiffre (Off/On) ──
+      {
+        id: "money1",
+        type: "circle",
+        x: -4,
+        y: 8.5,
+        blink: true,
+        size: 0.3,
+        imgOff: MoneyOff,
+        imgOn: MoneyOn,
+      },
+      {
+        id: "money2",
+        type: "circle",
+        x: -4.05,
+        y: 7.95,
+        blink: true,
+        size: 0.3,
+        imgOff: MoneyOff,
+        imgOn: MoneyOn,
+      },
+      {
+        id: "money3",
+        type: "circle",
+        x: -4.1,
+        y: 7.4,
+        blink: true,
+        size: 0.3,
+        imgOff: MoneyOff,
+        imgOn: MoneyOn,
+      },
+      {
+        id: "railsLeft",
+        type: "spring",
+        x: -1.66,
+        y: 11.8,
+        alwaysOn: true,
+        // size: 7,
+        width: 6.6,
+        height: 12.8,
+        imgOff: RailsLeft,
+      },
+      {
+        id: "railsRight",
+        type: "spring",
+        x: 3.5,
+        y: 9,
+        alwaysOn: true,
+        // size: 7,
+        width: 3.05,
+        height: 8.4,
+        imgOff: RailsRight,
       },
     ],
     scoring: { multiplierMax: 10 },
