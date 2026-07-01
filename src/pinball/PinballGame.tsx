@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as THREE from "three";
-import { pinballData, PinballKey, LightElement } from "./pinballData";
+import { pinballData, Collider, PinballKey, LightElement } from "./pinballData";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import * as S from "./Pinball.styled";
@@ -259,7 +259,7 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
     elementsRef.current = [];
     elementsStateRef.current = tableConfig.elements.map(() => false);
 
-    tableConfig.elements.forEach((el) => {
+    tableConfig.elements.forEach((el: LightElement) => {
       const s = el.size ?? 0.9;
       const w = el.width ?? s;
       const h = el.height ?? s;
@@ -412,7 +412,7 @@ const PinballGame: React.FC<Props> = ({ muted, setMuted }) => {
       if (cur === "playing") {
         if (springMeshRef.current) springMeshRef.current.visible = false;
 
-        tableConfig.colliders.forEach((c) => {
+        tableConfig.colliders.forEach((c: Collider) => {
           if (
             Math.abs(ballYRef.current - c.y) < c.radius &&
             velocityRef.current < 0
