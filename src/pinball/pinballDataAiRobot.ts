@@ -166,7 +166,12 @@ export const pinballDataAiRobot: PinballConfig = {
   musicEnd: EndAiRobot,
   launch: LaunchAiRobot,
 
-  physics: { gravity: -0.004, bounce: 0.8 },
+  physics: {
+    gravity: -0.004,
+    bounce: 0.8,
+    springMaxForce: 0.3,
+    springMinForce: 0.1,
+  },
   // ✅ Balle + caméra AiROBOT
   ballStartX: 4.8,
   ballStartY: 1.2,
@@ -242,6 +247,25 @@ export const pinballDataAiRobot: PinballConfig = {
       score: 2500,
     },
   ],
+
+  // pinballDataAiRobot.ts
+
+  lane: {
+    exitY: 18.5,
+    entryVelX: -0.05,
+  },
+  bounds: {
+    left: -4.7,
+    right: 4.2,
+    top: 19.8,
+  },
+  flipperPhysics: {
+    halfLen: 0.95,
+    thickness: 0.45,
+    kickVY: 0.22,
+    kickVX: 0.12,
+    passiveBounce: 0.25,
+  },
 
   elements: [
     // {

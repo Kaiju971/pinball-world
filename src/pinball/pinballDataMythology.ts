@@ -117,6 +117,24 @@ export const pinballDataMythology: PinballConfig = {
     { type: "bumper", x: 2, y: 10, radius: 0.5, force: 0.08, score: 100 },
     { type: "hole", x: -1, y: 5, radius: 0.6, score: 500 },
   ],
+
+  // pinballDataAiRobot.ts
+  lane: {
+    exitY: 18.5,
+    entryVelX: -0.05,
+  },
+  bounds: {
+    left: -4.7,
+    right: 4.2,
+    top: 19.8,
+  },
+  flipperPhysics: {
+    halfLen: 0.95,
+    thickness: 0.45,
+    kickVY: 0.22,
+    kickVX: 0.12,
+    passiveBounce: 0.25,
+  },
   elements: [
     {
       id: "spring",
