@@ -1,5 +1,5 @@
 import { PinballConfig } from "./pinballTypes";
-import MythologyImg from "../assets/images/MYTHOLOGY PINBALL.png";
+import MythologyImg from "../assets/images/MYTHOLOGY PINBALL.webp";
 import ball2 from "../assets/images/ball2.png";
 // Ressort
 import SpringImg from "../assets/images/ressor.png";
@@ -87,7 +87,7 @@ import HYPPOOff from "../assets/images/elements/Mythology/Hyppocampe_Off.png";
 import HYPPOOn from "../assets/images/elements/Mythology/Hyppocampe_On.png";
 
 // 🎵 musiques MYTHOLOGY
-import MythologyMusic from "../assets/audio/RiseOfTheHero.wav";
+import MythologyMusic from "../assets/audio/RiseOfTheHero.mp3";
 import IntroMythology from "../assets/audio/IntroMytho.mp3";
 import LaunchMythology from "../assets/audio/LaunchMytho.mp3";
 import EndMythology from "../assets/audio/EndMytho.mp3";

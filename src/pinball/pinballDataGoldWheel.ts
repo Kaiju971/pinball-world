@@ -1,5 +1,5 @@
 import { PinballConfig } from "./pinballTypes";
-import GoldWheelImg from "../assets/images/GOLDWHEEL PINBALL.png";
+import GoldWheelImg from "../assets/images/GOLDWHEEL PINBALL.webp";
 import ball1 from "../assets/images/ball1.png";
 
 // Ressort

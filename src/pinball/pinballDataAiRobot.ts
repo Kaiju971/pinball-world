@@ -1,5 +1,5 @@
 import { PinballConfig } from "./pinballTypes";
-import AiRobotImg from "../assets/images/AI PINBALL PINBALL2.png";
+import AiRobotImg from "../assets/images/AI PINBALL PINBALL2.webp";
 import ball3 from "../assets/images/ball3.png";
 // Ressort
 import SpringImg from "../assets/images/ressor.png";

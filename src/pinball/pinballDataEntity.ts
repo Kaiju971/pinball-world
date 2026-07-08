@@ -1,5 +1,5 @@
 import { PinballConfig } from "./pinballTypes";
-import EntityImg from "../assets/images/ENTITY PINBALL.png";
+import EntityImg from "../assets/images/ENTITY PINBALL.webp";
 import ball3 from "../assets/images/ball3.png";
 // Ressort
 import SpringImg from "../assets/images/ressor.png";
