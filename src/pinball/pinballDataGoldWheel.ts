@@ -1,9 +1,9 @@
 import { PinballConfig } from "./pinballTypes";
 import GoldWheelImg from "../assets/images/GOLDWHEEL PINBALL.webp";
-import ball1 from "../assets/images/ball1.png";
+import ball1 from "../assets/images/ball1.webp";
 
 // Ressort
-import SpringImg from "../assets/images/ressor.png";
+import SpringImg from "../assets/images/ressor.webp";
 import bumperFx from "../assets/audio/bumper.wav";
 import flipperFx from "../assets/audio/flipper.wav";
 import holeFx from "../assets/audio/hole.wav";

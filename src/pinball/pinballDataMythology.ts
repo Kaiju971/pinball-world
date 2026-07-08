@@ -1,8 +1,8 @@
 import { PinballConfig } from "./pinballTypes";
 import MythologyImg from "../assets/images/MYTHOLOGY PINBALL.webp";
-import ball2 from "../assets/images/ball2.png";
+import ball2 from "../assets/images/ball2.webp";
 // Ressort
-import SpringImg from "../assets/images/ressor.png";
+import SpringImg from "../assets/images/ressor.webp";
 
 import bumperFx from "../assets/audio/bumper.wav";
 import flipperFx from "../assets/audio/flipper.wav";

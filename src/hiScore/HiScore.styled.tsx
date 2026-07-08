@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import background from "../assets/images/HiScoresBackground.jpg";
+import background from "../assets/images/HiScoresBackground.webp";
 
 export const MainContainer = styled("div")({
   backgroundImage: `url(${background})`,

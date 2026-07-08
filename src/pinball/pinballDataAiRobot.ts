@@ -1,8 +1,8 @@
 import { PinballConfig } from "./pinballTypes";
 import AiRobotImg from "../assets/images/AI PINBALL PINBALL2.webp";
-import ball3 from "../assets/images/ball3.png";
+import ball3 from "../assets/images/ball3.webp";
 // Ressort
-import SpringImg from "../assets/images/ressor.png";
+import SpringImg from "../assets/images/ressor.webp";
 
 import bumperFx from "../assets/audio/bumper.wav";
 import flipperFx from "../assets/audio/flipper.wav";

@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Mythology from "../assets/images/Mythology.png";
-import AiRobot from "../assets/images/AiRobot.png";
-import Entity from "../assets/images/Entity.png";
-import GoldWheel from "../assets/images/GoldWheel.png";
+import Mythology from "../assets/images/Mythology.webp";
+import AiRobot from "../assets/images/AiRobot.webp";
+import Entity from "../assets/images/Entity.webp";
+import GoldWheel from "../assets/images/GoldWheel.webp";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
