@@ -4,9 +4,11 @@ import ball1 from "../assets/images/ball1.webp";
 
 // Ressort
 import SpringImg from "../assets/images/ressor.webp";
-import bumperFx from "../assets/audio/bumper.wav";
-import flipperFx from "../assets/audio/flipper.wav";
-import holeFx from "../assets/audio/hole.wav";
+import LaunchSpring from "../assets/audio/GoldWheelLaunchSpring.mp3";
+
+import bumperFx from "../assets/audio/GoldWheelBumper.mp3";
+import flipperFx from "../assets/audio/GoldWheelFlipper.mp3";
+import holeFx from "../assets/audio/GoldWheelHole.mp3";
 // 🎵 musiques GOLDWHEEL
 import GameGoldWheel from "../assets/audio/GameGoldWheel.mp3";
 import IntroGoldWheel from "../assets/audio/IntroGoldWheel.mp3";
@@ -206,6 +208,7 @@ export const pinballDataGoldWheel: PinballConfig = {
   ],
   scoring: { multiplierMax: 7 },
   fx: {
+    launch: LaunchSpring,
     bumper: bumperFx,
     flipper: flipperFx,
     hole: holeFx,

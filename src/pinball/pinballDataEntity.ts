@@ -3,10 +3,11 @@ import EntityImg from "../assets/images/ENTITY PINBALL.webp";
 import ball3 from "../assets/images/ball3.webp";
 // Ressort
 import SpringImg from "../assets/images/ressor.webp";
+import LaunchSpring from "../assets/audio/EntityLaunchSpring.mp3";
 
-import bumperFx from "../assets/audio/bumper.wav";
-import flipperFx from "../assets/audio/flipper.wav";
-import holeFx from "../assets/audio/hole.wav";
+import bumperFx from "../assets/audio/EntityBumper.mp3";
+import flipperFx from "../assets/audio/EntityFlipper.mp3";
+import holeFx from "../assets/audio/EntityHole.mp3";
 
 // 🎵 musiques ENTITY
 import IntroEntity from "../assets/audio/intro pinball ENTITY.mp3";
@@ -174,6 +175,7 @@ export const pinballDataEntity: PinballConfig = {
   ],
   scoring: { multiplierMax: 10 },
   fx: {
+    launch: LaunchSpring,
     bumper: bumperFx,
     flipper: flipperFx,
     hole: holeFx,

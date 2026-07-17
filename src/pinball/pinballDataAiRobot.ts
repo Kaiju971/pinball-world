@@ -3,10 +3,11 @@ import AiRobotImg from "../assets/images/AI PINBALL PINBALL2.webp";
 import ball3 from "../assets/images/ball3.webp";
 // Ressort
 import SpringImg from "../assets/images/ressor.webp";
+import LaunchSpring from "../assets/audio/AiRobotLaunchSpring.mp3";
 
-import bumperFx from "../assets/audio/bumper.wav";
-import flipperFx from "../assets/audio/flipper.wav";
-import holeFx from "../assets/audio/hole.wav";
+import bumperFx from "../assets/audio/AiRobotBumper.mp3";
+import flipperFx from "../assets/audio/AiRobotFlipper.mp3";
+import holeFx from "../assets/audio/AiRobotHole.mp3";
 
 // Lettres ROBOT
 import R_OnImg from "../assets/images/elements/AiRobot/R-On.png";
@@ -1025,6 +1026,7 @@ export const pinballDataAiRobot: PinballConfig = {
 
   scoring: { multiplierMax: 8 },
   fx: {
+    launch: LaunchSpring,
     bumper: bumperFx,
     flipper: flipperFx,
     hole: holeFx,

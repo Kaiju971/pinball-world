@@ -1,15 +1,16 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // ✅ Ajouté
+import MarqueeSequentialComponent from "../components/MarqueeSequentialComponent";
 import Mythology from "../assets/images/Mythology.webp";
 import AiRobot from "../assets/images/AiRobot.webp";
 import Entity from "../assets/images/Entity.webp";
 import GoldWheel from "../assets/images/GoldWheel.webp";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
-
+import { PinballKey } from "../pinball/pinballData";
 import * as S from "./Accueil.styled";
 
-/** 🔊 PROPS REÇUES DE AppRoutes */
 export interface AccueilProps {
   muted: boolean;
   setMuted: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,17 +23,33 @@ const itemData = [
   { img: GoldWheel, title: "GoldWheel", url: "GoldWheel" },
 ];
 
+const LanguageSwitcher = () => {
+  const { i18n } = useTranslation();
+  return (
+    <div>
+      {["fr", "en"].map((lang) => (
+        <button
+          key={lang}
+          onClick={() => i18n.changeLanguage(lang)}
+          style={{ fontWeight: i18n.language === lang ? "bold" : "normal" }}
+        >
+          {lang.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+};
+
 const Accueil: React.FC<AccueilProps> = ({ muted, setMuted }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation(); // ✅ AJOUTE CI ! (pour utiliser t())
 
   return (
     <S.MainContainer>
-      {/* 🔊 BOUTON SON GLOBAL */}
       <S.SoundButton onClick={() => setMuted((m) => !m)}>
         {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
       </S.SoundButton>
 
-      {/* 🎮 GRILLE DES PINBALL */}
       <S.GridContainer>
         {itemData.map((item) => (
           <S.GridItem
@@ -44,7 +61,6 @@ const Accueil: React.FC<AccueilProps> = ({ muted, setMuted }) => {
         ))}
       </S.GridContainer>
 
-      {/* 🔵 MARQUEE */}
       <S.Marquee speed={15} color="#00eaff" fontSize={28}>
         <div className="track">
           <p>WELCOME TO THE PINBALL'S WORLD!</p>
@@ -52,29 +68,16 @@ const Accueil: React.FC<AccueilProps> = ({ muted, setMuted }) => {
         </div>
       </S.Marquee>
 
-      {/* 🟡 MARQUEE SEQUENTIEL */}
-      <S.MarqueeSequential>
-        {[
-          "---INSTRUCTIONS---",
-          "---CLICK TO SELECT TABLE TO PLAY---",
-          "---USE ARROW DOWN ↓ TO LAUNCH---",
-          "---USE SHIFT LEFT ⬆︎ / SHIFT RIGHT ⬆︎ ---",
-          "---PUSH TABLE WITH SPACE ﹈ (BUT NOT TOO MUCH)---",
-          "---PRESS SOUNDBOARD TO STOP THE MUSIC 🔇---",
-        ].map((text, i) => (
-          <div
-            key={i}
-            className="line"
-            style={{ animationDelay: `${i * 5000}ms` }}
-          >
-            {text}
-          </div>
-        ))}
-      </S.MarqueeSequential>
+      {/* ✅ Composant corrigé */}
+      <MarqueeSequentialComponent
+        textKey="accueil.welcome" // ✅ Clé directe dans i18n
+        color="yellow"
+        fontSize={30}
+        duration={2500}
+      />
 
-      {/* 🏆 HI-SCORE */}
       <S.ScoreButton onClick={() => navigate("/hiscore")}>
-        VIEW HI-SCORES
+        {t("accueil.viewHiScores")} {/* ✅ Texte traduit */}
       </S.ScoreButton>
     </S.MainContainer>
   );

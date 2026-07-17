@@ -14,6 +14,7 @@ export const Wrapper = styled("div")({
   fontFamily: "Orbitron, sans-serif",
 });
 
+
 export const Title = styled("h1")({
   fontSize: "60px",
   letterSpacing: "6px",
@@ -135,3 +136,51 @@ export const Hint = styled("div")({
     "50%": { opacity: 0.3 },
   },
 });
+
+
+export const LanguageContainer = styled("div")({
+  display: "flex",
+  gap: "15px",
+  marginBottom: "40px", // Espace avant le subtitle
+});
+
+export const LanguageButton = styled("button")<{ active: boolean }>(({ active }) => ({
+  background: active
+    ? "radial-gradient(circle, #00ff9c, #004d2c)"
+    : "radial-gradient(circle, #00aaff, #002c55)",
+  color: "white",
+  border: "none",
+  borderRadius: "30px",
+  padding: "8px 20px",
+  fontSize: "14px",
+  fontFamily: "Orbitron, sans-serif",
+  letterSpacing: "2px",
+  cursor: "pointer",
+  boxShadow: active
+    ? "0 0 20px #00ff9c, 0 0 40px #006c3a"
+    : "0 0 20px #00aaff, 0 0 40px #002c55",
+  transition: "all 0.3s ease",
+  textTransform: "uppercase",
+  position: "relative",
+  overflow: "hidden",
+
+  "&:hover": {
+    transform: "scale(1.05)",
+    boxShadow: active
+      ? "0 0 30px #00ff9c, 0 0 60px #006c3a"
+      : "0 0 30px #00aaff, 0 0 60px #002c55",
+  },
+
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: "30px",
+    border: `1px solid ${active ? "#00ff9c" : "#00aaff"}`,
+    opacity: 0.8,
+    transition: "all 0.3s ease",
+  },
+}));

@@ -65,7 +65,7 @@ export const Marquee = styled("div")<{
 }>(({ speed = 15, color = "#00ffea", fontSize = 30 }) => ({
   // width: "450px",
 //   lineHeight: "40px",
-    //  height: "8vh",
+      height: "5vh",
   backgroundColor: "black",
   color: color,
   overflow: "hidden",
@@ -120,15 +120,17 @@ export const Marquee = styled("div")<{
   },
 }));
 
-export const MarqueeSequential = styled("div")<{
+export const MarqueeSequentialComponent = styled("div")<{
   color?: string;
+  background?: number | string;
   fontSize?: number | string;
   duration?: number; // durée affichage d'une ligne
 }>(({ color = "yellow", fontSize = 30, duration = 5000 }) => {
   const totalLines = 6; // nombre de lignes, tu peux changer si besoin
   return {
+    
     width: "100%",
-    height: "7vh",
+    height: "100%",
     overflow: "hidden",
     position: "relative",
     backgroundColor: "#111",
@@ -137,6 +139,7 @@ export const MarqueeSequential = styled("div")<{
     justifyContent: "center",
 
     "& .line": {
+      
       position: "absolute",
       top: 0,
       left: 0,
@@ -166,6 +169,7 @@ export const MarqueeSequential = styled("div")<{
     },
   };
 });
+
 
 export const ScoreButton = styled("button")({
   position: "absolute",

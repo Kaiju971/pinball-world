@@ -3,10 +3,11 @@ import MythologyImg from "../assets/images/MYTHOLOGY PINBALL.webp";
 import ball2 from "../assets/images/ball2.webp";
 // Ressort
 import SpringImg from "../assets/images/ressor.webp";
+import LaunchSpring from "../assets/audio/MythologyLaunchSpring.mp3";
 
-import bumperFx from "../assets/audio/bumper.wav";
-import flipperFx from "../assets/audio/flipper.wav";
-import holeFx from "../assets/audio/hole.wav";
+import bumperFx from "../assets/audio/MythologyBumper.mp3";
+import flipperFx from "../assets/audio/MythologyFlipper.mp3";
+import holeFx from "../assets/audio/MythologyHole.mp3";
 //  Elements MYTHOLOGY
 // Lettres MYTHOLOGY
 import M_On from "../assets/images/elements/Mythology/M-On.png";
@@ -750,6 +751,7 @@ export const pinballDataMythology: PinballConfig = {
   ],
   scoring: { multiplierMax: 10 },
   fx: {
+    launch: LaunchSpring,
     bumper: bumperFx,
     flipper: flipperFx,
     hole: holeFx,
